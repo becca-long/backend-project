@@ -14,12 +14,12 @@ module.exports = router
 
 
 const User
-// User = sequelize.define('USERINFO TABLE', {
-//     userName: Sequelize.STRING,
-//     password: Sequelize.STRING,
-//     createdAt: Sequelize.literal('NOW()'),
-//     updatedAt: Sequelize.literal('NOW()')
-// })
+User = sequelize.define('user', {
+    username: Sequelize.STRING,
+    password: Sequelize.STRING,
+    firstname: Sequelize.STRING,
+    lastname: Sequelize.STRING
+})
 
 
 
@@ -45,25 +45,25 @@ passport.deserializeUser(function (id, cb) {
 
 const LocalStrategy = require('passport-local').Strategy;
 
-// passport.use(new LocalStrategy(
-//     function (username, password, done) {
-//         User.findOne({
-//                 where: {
-//                     userName: username
-//                 }
+passport.use(new LocalStrategy(
+    function (username, password, done) {
+        User.findOne({
+                where: {
+                    username: username
+                }
 //             })
-//             .then((user) => {
-//                 // if (err) {
-//                 //     return done(err);
-//                 // }
-//                 if (!user) {
-//                     return done(null, undefined)
-//                 }
+            .then((user) => {
+                if (err) {
+                    return done(err);
+                }
+                if (!user) {
+                    return done(null, undefined)
+                }
 
 //                 // FUNCTION TO CHECK PASSWORD
-//                 // if (!user.verifyPassword(password)) {
-//                 //     return done(null, undefined);
-//                 // }
+                // if (!user.verifyPassword(password)) {
+                //     return done(null, undefined);
+                // }
 //                 console.log('user', user)
 //                 return done(null, user.dataValues)
 //             })
@@ -73,14 +73,14 @@ const LocalStrategy = require('passport-local').Strategy;
 //     }
 // ));
 
-// router.post('/',
-//     passport.authenticate('local', {
-//         failureRedirect: '/error'
-//     }),
-//     function (req, res) {
-//         console.log('Req.user', req.user)
-//         res.redirect('/success?username=' + req.user.userName);
-//     });
+router.post('/',
+    passport.authenticate('local', {
+        failureRedirect: '/error'
+    }),
+    function (req, res) {
+        console.log('Req.user', req.user)
+        res.redirect('/success?username=' + req.user.userName);
+    });
 
 
 

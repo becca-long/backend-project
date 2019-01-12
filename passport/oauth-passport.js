@@ -11,7 +11,7 @@ module.exports = router
 
 /*  PASSPORT SETUP  */
 
-console.log('This is oauth-passport.js')
+
 const passport = require('passport')
 
 
