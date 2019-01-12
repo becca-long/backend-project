@@ -27,41 +27,46 @@ const User = sequelize.define('user', {
 
 
 function createNewUser(userName, hash, firstName, lastName) {
-    console.log('Hi')
-    // const newUser = User.build({
-    //     userName: userName,
-    //     password: hash,
-    //     firstname: firstName,
-    //     lastname: lastName
-    // })
+
 
     User
         .create({
-            userName: userName,
+            username: userName,
             password: hash,
             firstname: firstName,
             lastname: lastName
         })
         // .save()
-        .then(()=>{console.log('YAY')})
-        .catch((er)=>{
-            console.log(er)
+        .then(() => {
+            console.log('YAY')
+        })
+        .catch((er) => {
+            console.log('This is er', er)
         })
 
-    // console.log(userName, hash, firstName, lastName)   
-
-    // newUser.save()
-    // .then(()=>{
-    //     console.log('YAY')
-    //     return
-    // })
-    // .catch(()=>{
-    //     console.log('FAIL')
-    //     return
-    // })
-
-
 }
+
+
+
+//CHECKS IF USER EXISTING OR NOT
+
+function checkIfExisting(username) {
+    User.findOne({
+            where: {
+                username: username
+            }
+        })
+        .then((user) => {
+            if (user === username) {
+                console.log('false')
+                return true
+            }
+            if (user !== username) {
+                return false
+            }
+        })
+}
+
 
 
 router.post('/api/create/username/:userName', (req, res) => {
@@ -82,10 +87,15 @@ router.post('/api/create/username/:userName', (req, res) => {
             bcrypt.hash(password, saltRounds)
                 .then((hash) => {
                     if (hash) {
-                        createNewUser(userName, hash, firstName, lastName)
-                        res.json({
-                            success: true
-                        })
+                        //IF USER DOES NOT EXIST
+                        if (!checkIfExisting(userName)) {
+                            createNewUser(userName, hash, firstName, lastName)
+                            res.json({
+                                success: true
+                            })
+                        }else{
+                            res.json({error: 'Username is already taken'})
+                        }
                     }
                 })
                 .catch((er) => {
