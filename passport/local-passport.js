@@ -52,6 +52,7 @@ passport.deserializeUser(function (id, cb) {
 
 /* PASSPORT LOCAL AUTHENTICATION */
 
+
 const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
@@ -65,11 +66,14 @@ function (username, password, done) {
             if (!user) {
                 return done(null, undefined)
             }
+            // COMPARES THE HASHED PASSWORDS
             bcrypt.compare(password, user.dataValues.password)
                 .then((res) => {
                     if (res) {
+                        // IF TRUE RETURN DONE SUCCESS
                         return done(null, user.dataValues)
                     } else {
+                        // ELSE WILL NOT LOG IN
                         return done(null, undefined)
                     }
                 })
@@ -84,7 +88,7 @@ function (username, password, done) {
     }))
 
 
-
+// TAKES USERS LOGIN AND PASSWORD AND AUTHENTICATES IT
 router.post('/api/user/login',
     passport.authenticate('local', {
         failureRedirect: '/error'
