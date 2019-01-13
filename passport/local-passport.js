@@ -2,10 +2,19 @@ const express = require('express')
 const router = express.Router()
 
 
+const app = express();
 
 const Sequelize = require('sequelize')
 const sequelize = require('../sequlizeSetup')
 
+
+const bcrypt = require('bcrypt')
+
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 module.exports = router
 
@@ -13,8 +22,8 @@ module.exports = router
 // POSTGRESS INSTANCES
 
 
-const User
-User = sequelize.define('user', {
+
+const User = sequelize.define('user', {
     username: Sequelize.STRING,
     password: Sequelize.STRING,
     firstname: Sequelize.STRING,
@@ -46,34 +55,37 @@ passport.deserializeUser(function (id, cb) {
 const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
-    function (username, password, done) {
-        User.findOne({
-                where: {
-                    username: username
-                }
-//             })
-            .then((user) => {
-                if (err) {
-                    return done(err);
-                }
-                if (!user) {
-                    return done(null, undefined)
-                }
+function (username, password, done) {
+    User.findOne({
+            where: {
+                username: username
+            }
+        })
+        .then((user) => {
+            if (!user) {
+                return done(null, undefined)
+            }
+            bcrypt.compare(password, user.dataValues.password)
+                .then((res) => {
+                    if (res) {
+                        return done(null, user.dataValues)
+                    } else {
+                        return done(null, undefined)
+                    }
+                })
+                .catch((er) => {
+                    console.log(er)
+                })
 
-//                 // FUNCTION TO CHECK PASSWORD
-                // if (!user.verifyPassword(password)) {
-                //     return done(null, undefined);
-                // }
-//                 console.log('user', user)
-//                 return done(null, user.dataValues)
-//             })
-//             .catch((er) => {
-//                 console.log(er)
-//             })
-//     }
-// ));
+        })
+        .catch((er) => {
+            console.log(er)
+        })
+    }))
 
-router.post('/',
+
+
+router.post('/api/user/login',
     passport.authenticate('local', {
         failureRedirect: '/error'
     }),
@@ -81,9 +93,3 @@ router.post('/',
         console.log('Req.user', req.user)
         res.redirect('/success?username=' + req.user.userName);
     });
-
-
-
-//TODO
-// CREATE VERIFY PASSWORD WITH HASH
-// https://www.npmjs.com/package/bcrypt-nodejs
