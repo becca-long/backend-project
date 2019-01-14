@@ -37,7 +37,7 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 router.get('/success', (req, res) => res.send("Welcome " + req.query.username + "!!"));
-router.get('/error', (req, res) => res.send("error logging in"));
+router.get('/error', (req, res) => res.send("Error logging in. Please register"));
 
 passport.serializeUser(function (user, cb) {
     cb(null, user.id);
@@ -95,5 +95,5 @@ router.post('/api/user/login',
     }),
     function (req, res) {
         console.log('Req.user', req.user)
-        res.redirect('/success?username=' + req.user.userName);
+        res.redirect('/success?username=' + req.user.username);
     });
