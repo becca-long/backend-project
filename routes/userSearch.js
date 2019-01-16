@@ -8,11 +8,12 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 
+const getData = require('../sequlize/sequlize')
 
 module.exports = router
 
-const Sequelize = require('sequelize')
-const sequelize = require('../sequlizeSetup')
+// const Sequelize = require('sequelize')
+// const sequelize = require('../sequlizeSetup')
 
 
 
@@ -27,4 +28,10 @@ router.get('/api/copy-cat/search', (req, res)=>{
     console.log('Someone called the /api/copy-cat/serch')
     let term = req.query.term
     console.log('This is the term', term)
+    getData.getSong(term)
+        .then((itm)=>{
+            res.json(itm)
+        })
+        
+    
 })

@@ -3,7 +3,7 @@ const password = require('./password')
 
 
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('database_test', 'kimmanansala', null, {
+const sequelize = new Sequelize('database_development', 'kimmanansala', null, {
     host: 'localhost',
     dialect: 'postgres',
     operatorsAliases: false,
