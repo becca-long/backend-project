@@ -1,16 +1,14 @@
 
-
-
-
-const db = require('../models')
-
-
 const searchFunctions = {
     getSong: getSong,
     getAlbum: getAlbum
 
 }
 module.exports= searchFunctions
+
+
+const db = require('../models')
+
 
 
 
@@ -35,7 +33,9 @@ function getSong(term) {
 
 function getAlbum(term){
     return new Promise((resolve, reject)=>{
-        db.songAlbums.findAll({
+
+        db.albums.findAll({
+
             where:{
                 title:term
             }
@@ -45,4 +45,7 @@ function getAlbum(term){
         })
         .catch((er)=>{reject(er)})
     })
+
 }
+
+

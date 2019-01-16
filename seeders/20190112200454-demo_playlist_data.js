@@ -89,4 +89,6 @@ module.exports = {
     await queryInterface.bulkDelete('playlist_songs', null, {});
     await queryInterface.bulkDelete('playlists', null, {});
   }
+
 };
+

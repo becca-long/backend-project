@@ -14,15 +14,9 @@ const saltRounds = 10
 
 module.exports = router
 
-const Sequelize = require('sequelize')
-const sequelize = require('../sequlizeSetup')
 
-const User = sequelize.define('user', {
-  username: Sequelize.STRING,
-  password: Sequelize.STRING,
-  firstname: Sequelize.STRING,
-  lastname: Sequelize.STRING
-})
+const db = require('../models')
+
 
 function createNewUser (userName, hash, firstName, lastName) {
   db.user
@@ -41,7 +35,27 @@ function createNewUser (userName, hash, firstName, lastName) {
     })
 }
 
+
 // CHECKS IF USER EXISTING OR NOT
+
+function createNewUser(userName, hash, firstName, lastName) {
+
+
+    db.user
+        .create({
+            username: userName,
+            password: hash,
+            firstname: firstName,
+            lastname: lastName
+        })
+        // .save()
+        .then(() => {
+            console.log('YAY')
+        })
+        .catch((er) => {
+            console.log('This is er', er)
+        })
+
 
 function checkIfExisting (username) {
   db.user.findOne({
@@ -65,6 +79,7 @@ router.get('/signup', (req, res) => {
 })
 
 router.get()
+
 
 router.post('/api/create/username/:userName', (req, res) => {
   let userName = req.params.userName
@@ -90,6 +105,14 @@ router.post('/api/create/username/:userName', (req, res) => {
               res.redirect('/')
             } else {
               res.json({ error: 'Username is already taken' })
+=======
+//CHECKS IF USER EXISTING OR NOT
+
+function checkIfExisting(username) {
+    db.user.findOne({
+            where: {
+                username: username
+
             }
           }
         })
