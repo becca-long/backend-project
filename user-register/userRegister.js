@@ -14,15 +14,15 @@ const saltRounds = 10
 
 module.exports = router
 
-// const Sequelize = require('sequelize')
-// const sequelize = require('../sequlizeSetup')
+const Sequelize = require('sequelize')
+const sequelize = require('../sequlizeSetup')
 
-// const User = sequelize.define('user', {
-//   username: Sequelize.STRING,
-//   password: Sequelize.STRING,
-//   firstname: Sequelize.STRING,
-//   lastname: Sequelize.STRING
-// })
+const User = sequelize.define('user', {
+  username: Sequelize.STRING,
+  password: Sequelize.STRING,
+  firstname: Sequelize.STRING,
+  lastname: Sequelize.STRING
+})
 
 function createNewUser (userName, hash, firstName, lastName) {
   db.user
