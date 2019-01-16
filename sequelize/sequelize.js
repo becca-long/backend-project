@@ -35,7 +35,7 @@ function getSong(term) {
 
 function getAlbum(term){
     return new Promise((resolve, reject)=>{
-        db.songAlbums.findAll({
+        db.albums.findAll({
             where:{
                 title:term
             }
