@@ -67,6 +67,12 @@ function checkIfExisting(username) {
         })
 }
 
+router.get('/signup', (req,res)=>{
+    res.render()
+})
+
+
+router.get()
 
 
 router.post('/api/create/username/:userName', (req, res) => {
@@ -90,9 +96,7 @@ router.post('/api/create/username/:userName', (req, res) => {
                         //IF USER DOES NOT EXIST
                         if (!checkIfExisting(userName)) {
                             createNewUser(userName, hash, firstName, lastName)
-                            res.json({
-                                success: true
-                            })
+                            res.redirect('/')
                         }else{
                             res.json({error: 'Username is already taken'})
                         }
@@ -107,3 +111,6 @@ router.post('/api/create/username/:userName', (req, res) => {
         console.log('User name is undefined')
     }
 })
+
+
+router.get('')
