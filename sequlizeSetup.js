@@ -1,9 +1,5 @@
-
-const password = require('./password')
-
-
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('database_development', 'kimmanansala', null, {
+const sequelize = new Sequelize('backend_database_project', 'beccarandall', null, {
     host: 'localhost',
     dialect: 'postgres',
     operatorsAliases: false,
