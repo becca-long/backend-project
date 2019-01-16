@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 
-const getData = require('../sequlize/sequlize')
+const getData = require('../sequelize/sequelize')
 
 module.exports = router
 

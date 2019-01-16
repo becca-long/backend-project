@@ -2,11 +2,7 @@
 
 
 
-const Sequelize = require('sequelize')
-const sequelize = require('../sequlizeSetup')
-
-
-
+const db = require('../models')
 
 
 const searchFunctions = {
@@ -16,21 +12,12 @@ const searchFunctions = {
 }
 module.exports= searchFunctions
 
-const Song = sequelize.define('song', {
-    title: Sequelize.STRING,
-    youtube_id: Sequelize.STRING
-})
-
-const Albums = sequelize.define('album',{
-    title: Sequelize.STRING,
-    album_art: Sequelize.STRING
-})
 
 
 function getSong(term) {
     return new Promise((resolve, reject) => {
         console.log(term)
-        Song.findAll({
+        db.song.findAll({
                 where: {
                     title: term
                 }
@@ -48,7 +35,7 @@ function getSong(term) {
 
 function getAlbum(term){
     return new Promise((resolve, reject)=>{
-        Albums.findAll({
+        db.songAlbums.findAll({
             where:{
                 title:term
             }
@@ -59,14 +46,3 @@ function getAlbum(term){
         .catch((er)=>{reject(er)})
     })
 }
-
-
-// function getAllSongs(){
-//     return new Promise((resolve, reject)=>{
-//         Song.finaAll({
-//             where:{
-//                 id: this
-//             }
-//         })
-//     })
-// }
