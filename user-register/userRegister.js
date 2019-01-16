@@ -13,23 +13,13 @@ const saltRounds = 10
 
 module.exports = router
 
-const Sequelize = require('sequelize')
-const sequelize = require('../sequlizeSetup')
-
-
-
-const User = sequelize.define('user', {
-    username: Sequelize.STRING,
-    password: Sequelize.STRING,
-    firstname: Sequelize.STRING,
-    lastname: Sequelize.STRING
-})
+const db = require('../models')
 
 
 function createNewUser(userName, hash, firstName, lastName) {
 
 
-    User
+    db.user
         .create({
             username: userName,
             password: hash,
@@ -51,7 +41,7 @@ function createNewUser(userName, hash, firstName, lastName) {
 //CHECKS IF USER EXISTING OR NOT
 
 function checkIfExisting(username) {
-    User.findOne({
+    db.user.findOne({
             where: {
                 username: username
             }

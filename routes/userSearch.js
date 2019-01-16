@@ -12,11 +12,6 @@ const getData = require('../sequlize/sequlize')
 
 module.exports = router
 
-// const Sequelize = require('sequelize')
-// const sequelize = require('../sequlizeSetup')
-
-
-
 
 
 /*

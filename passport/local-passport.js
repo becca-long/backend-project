@@ -4,10 +4,6 @@ const router = express.Router()
 
 const app = express();
 
-const Sequelize = require('sequelize')
-const sequelize = require('../sequlizeSetup')
-
-
 const bcrypt = require('bcrypt')
 
 
@@ -20,15 +16,9 @@ module.exports = router
 
 
 // POSTGRESS INSTANCES
+const db = require('../models')
 
 
-
-const User = sequelize.define('user', {
-    username: Sequelize.STRING,
-    password: Sequelize.STRING,
-    firstname: Sequelize.STRING,
-    lastname: Sequelize.STRING
-})
 
 
 
@@ -44,7 +34,7 @@ passport.serializeUser(function (user, cb) {
 });
 
 passport.deserializeUser(function (id, cb) {
-    User.findById(id)
+    db.user.findById(id)
         .then((err, user) => {
             cb(err, user);
         });
@@ -57,7 +47,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
 function (username, password, done) {
-    User.findOne({
+    db.user.findOne({
             where: {
                 username: username
             }
