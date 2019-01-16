@@ -27,7 +27,7 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 router.get('/success', (req, res) => res.send("Welcome " + req.query.username + "!!"));
-router.get('/error', (req, res) => res.send("Error logging in. Please register"));
+router.get('/', (req, res) => res.send("Error logging in. Please register"));
 
 passport.serializeUser(function (user, cb) {
     cb(null, user.id);
@@ -79,9 +79,9 @@ function (username, password, done) {
 
 
 // TAKES USERS LOGIN AND PASSWORD AND AUTHENTICATES IT
-router.post('/api/user/login',
+router.post('/login',
     passport.authenticate('local', {
-        failureRedirect: '/error'
+        failureRedirect: '/'
     }),
     function (req, res) {
         console.log('Req.user', req.user)

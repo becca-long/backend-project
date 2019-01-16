@@ -4,6 +4,7 @@
 //     dialect: 'postgres',
 //     operatorsAliases: false,
 
+
 //     pool: {
 //         max: 5,
 //         min: 0,
@@ -14,3 +15,4 @@
 
 
 // module.exports = sequelize
+

@@ -13,7 +13,6 @@ const getData = require('../sequlize/sequlize')
 module.exports = router
 
 
-
 /*
 *   CALL BY 
 *   EXAMPLE AXIOS
