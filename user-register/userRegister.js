@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const app = express()
 const db = require('../models')
+const validator = require('email-validator')
+
 
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
@@ -63,7 +65,9 @@ function checkIfExisting(username) {
 // })
 
 
-// router.get()
+router.get('/signup/email/invalid', (req,res)=>{
+
+})
 
 router.post('/api/create/username/:userName', (req, res) => {
     let userName = req.params.userName
@@ -71,27 +75,41 @@ router.post('/api/create/username/:userName', (req, res) => {
     let firstName = req.body.firstname
     let lastName = req.body.lastname
     if (req.params.userName) {
-
-        if (password) {
-            // HASH AND SALT THE USER PASSWORD
-            bcrypt.hash(password, saltRounds)
-                .then((hash) => {
-                    if (hash) {
-                        // IF USER DOES NOT EXIST
-                        if (!checkIfExisting(userName)) {
-                            createNewUser(userName, hash, firstName, lastName)
-                            res.redirect('/')
-                        } else {
-                            res.json({
-                                error: 'Username is already taken'
-                            })
+        if (validator.validate(req.params.userName)) {
+            if (password) {
+                // HASH AND SALT THE USER PASSWORD
+                bcrypt.hash(password, saltRounds)
+                    .then((hash) => {
+                        if (hash) {
+                            // IF USER DOES NOT EXIST
+                            if (!checkIfExisting(userName)) {
+                                createNewUser(userName, hash, firstName, lastName)
+                                res.redirect('/')
+                            } else {
+                                res.json({
+                                    error: 'Username is already taken'
+                                })
+                            }
                         }
-                    }
-                })
+                    })
+            }
+        }
+        else{
+            res.redirect('/signup/email/invalid')
         }
         // CHECKING IF USERNAME IS NOT UNDEFINED
     } else if (!req.params.userName) {
         console.log('User name is undefined')
     }
 
+})
+
+
+
+
+router.get('/signup', (req, res)=>{
+    res.render('userRegister',{
+        pageTitle:"Register",
+        pageiD: "REGISTER"
+    })
 })

@@ -5,32 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="../public/style/index.css">
+    <link rel="stylesheet" type="text/html" href="../public/style/index.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     <title>Document</title>
 </head>
 
 <body>
+
     <h1>User Login</h1>
-    <form>
+    <form action="/login/user" method="post"'>
         <div>
             <label>Username:</label>
-            <input type="text" name="username" />
+            <input id='username-login'type="text" name="username" />
             <br />
         </div>
         <div>
             <label>Password:</label>
-            <input type="password" name="password" />
+            <input id='password-login' type="password" name="password" />
         </div>
         <div>
             <input type="submit" value="Submit" />
         </div>
     </form>
     <hr />
-    <a href= /auth/facebook>Sign in with Facebook</a>
-    <a href= /auth/github>Sign in with Github</a> 
+    <a class='oauth' href= /auth/facebook>Sign in with Facebook</a>
+    <a class='oauth' href= /auth/github>Sign in with Github</a> 
     <h2>Don't have an account? <a href='/signup'>Sign up</a></h2>
 
-    <script src="../public/js/index.js"></script>
 </body>
 
 </html>
