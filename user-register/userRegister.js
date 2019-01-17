@@ -63,7 +63,7 @@ function checkIfExisting(username) {
 // })
 
 
-
+// router.get()
 
 router.post('/api/create/username/:userName', (req, res) => {
     let userName = req.params.userName
