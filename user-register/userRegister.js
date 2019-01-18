@@ -15,7 +15,6 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 module.exports = router
-let message = ' '
 
 
 
@@ -41,18 +40,23 @@ function createNewUser(userName, hash, firstName, lastName) {
 // CHECKS IF USER EXISTING OR NOT
 
 function checkIfExisting(username) {
+    console.log(username)
     db.user.findOne({
             where: {
                 username: username
             }
         })
         .then((user) => {
-            if (user === username) {
-                console.log('false')
+            console.log('THIS IS USER', user.dataValues.username)
+            let dataUser = user.dataValues.username
+            if (dataUser === username) {
+                console.log('true')
                 return true
             }
-            if (user !== username) {
+            if (dataUser !== username) {
+                console.log('false')
                 return false
+                
             }
         })
         .catch((er) => {
@@ -60,19 +64,14 @@ function checkIfExisting(username) {
         })
 }
 
-// router.get('/signup', (req, res) => {
-//     res.render()
-// })
 
 
-router.get('/signup/email/invalid', (req,res)=>{
+
+router.get('/signup/email/invalid', (req, res) => {
 
 })
 
 router.post('/signup', (req, res) => {
-    console.log('UserRegiser line 73')
-    // res.send("Hi")
-    console.log(req.body)
     let userName = req.body.username
     let password = req.body.password
     let firstName = req.body.firstname
@@ -88,28 +87,36 @@ router.post('/signup', (req, res) => {
                     .then((hash) => {
                         if (hash) {
                             // IF USER DOES NOT EXIST
-                            if (!checkIfExisting(userName)) {
+                            if (checkIfExisting(userName)) {
                                 createNewUser(userName, hash, firstName, lastName)
                                 res.redirect('/')
                             } else {
-                                res.json({
-                                    error: 'Username is already taken'
+                                res.render('userRegister', {
+                                    pageTitle: "Register",
+                                    pageiD: "REGISTER",
+                                    message: message,
+                                    displayMessage: css,
                                 })
                             }
+                        }else{
+                            console.log('No password')
                         }
                     })
-                    .catch((er)=>{
+                    .catch((er) => {
                         console.log(er)
                     })
+            }else{
+                console.log('No password')
             }
-        }
-        else{
-            console.log('Invalid email')
+        } else {
+            //THIS IS FOR INVALID USERNAMES
+            css = 'block'
             message = 'Error invalid username'
-            res.render('userRegister',{
-                pageTitle:"Register",
+            es.render('userRegister', {
+                pageTitle: "Register",
                 pageiD: "REGISTER",
-                message: message
+                message: message,
+                displayMessage: css,
             })
         }
         // CHECKING IF USERNAME IS NOT UNDEFINED
@@ -124,11 +131,13 @@ router
 
 
 
-router.get('/signup', (req, res)=>{
-    message = ''
-    res.render('userRegister',{
-        pageTitle:"Register",
+router.get('/signup', (req, res) => {
+    css = 'block'
+    message = 'Error invalid username'
+    res.render('userRegister', {
+        pageTitle: "Register",
         pageiD: "REGISTER",
-        message: message
+        message: message,
+        displayMessage: css,
     })
 })
