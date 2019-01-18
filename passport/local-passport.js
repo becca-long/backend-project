@@ -52,43 +52,75 @@ const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
     function (username, password, done) {
-        db.user.findOne({
-                where: {
-                    username: username
-                }
-            })
-            .then((user) => {
-                if (!user) {
-                    return done(null, undefined)
-                }
-                // COMPARES THE HASHED PASSWORDS
-                bcrypt.compare(password, user.dataValues.password)
-                    .then((res) => {
-                        if (res) {
-                            // IF TRUE RETURN DONE SUCCESS
-                            return done(null, user.dataValues)
-                        } else {
-                            // ELSE WILL NOT LOG IN
-                            return done(null, undefined)
-                        }
-                    })
-                    .catch((er) => {
-                        console.log(er)
-                    })
+        if (username) {
+            db.user.findOne({
+                    where: {
+                        username: username
+                    }
+                })
+                .then((user) => {
+                    if (!user) {
+                        return done(null, undefined)
+                    }
+                    // COMPARES THE HASHED PASSWORDS
+                    bcrypt.compare(password, user.dataValues.password)
+                        .then((res) => {
+                            if (res) {
+                                // IF TRUE RETURN DONE SUCCESS
+                                return done(null, user.dataValues)
+                            } else {
+                                // ELSE WILL NOT LOG IN
+                                return done(null, undefined)
+                            }
+                        })
+                        .catch((er) => {
+                            console.log(er)
+                        })
 
-            })
-            .catch((er) => {
-                console.log(er)
-            })
+                })
+                .catch((er) => {
+                    console.log(er)
+                })
+        } else {
+            done(null, undefined, 'Username cannot be invalid')
+        }
+
     }))
 
 
 // TAKES USERS LOGIN AND PASSWORD AND AUTHENTICATES IT
-router.post('/login/user',
-    passport.authenticate('local', {
-        failureRedirect: '/error'
-    }),
-    function (req, res) {
-        console.log('Req.user', req.user)
-        res.redirect('/success?username=' + req.user.username);
-    });
+// router.post('/login/user', passport.authenticate('local', function(err,user,info){
+
+// }), 
+//     function (req, res) {
+//         console.log('Req.user', req.user)
+//         res.redirect('/success?username=' + req.user.username);
+//     });
+
+
+
+router.post('/login', function (req, res, next) {
+    passport.authenticate('local', function (err, user, info) {
+        console.log(err, user, info);
+        if (user) {
+            res.send({
+                user: user
+            });
+        } else {
+            res.send({
+                error: err,
+                info: info
+            });
+
+        }
+    })(req, res, next);
+});
+
+
+
+router.get('/login', (req, res) => {
+    res.render('login', {
+        pageTitle: "Login",
+        pageID: 'login'
+    })
+})

@@ -146,6 +146,7 @@ router.post('/signup', (req, res) => {
         // CHECKING IF USERNAME IS NOT UNDEFINED
     } else if (!req.params.userName) {
         console.log('User name is undefined')
+
         res.render('userRegister', renderObject)
     }
 
@@ -157,6 +158,13 @@ router
 
 
 router.get('/signup', (req, res) => {
-
+    renderObject.message = '',
+    renderObject.displayMessage = 'none',
+    renderObject.password = '',
+    renderObject.displayPass = 'none',
+    renderObject.fNameMessage = '',
+    renderObject.fNameCss = 'none',
+    renderObject.lNameMessage = '',
+    renderObject.lNameCss = 'none'
     res.render('userRegister', renderObject)
 })

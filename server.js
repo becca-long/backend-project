@@ -29,12 +29,12 @@ app.use(require('./routes/createPlaylist'))
 
 app.use(require('./routes/dashboard'))
 
-app.get('/login', (req, res)=>{
-  res.render('login',{
-    pageTitle: "Login",
-    pageID: 'login' 
-  })
-})
+// app.get('/login', (req, res)=>{
+//   res.render('login',{
+//     pageTitle: "Login",
+//     pageID: 'login' 
+//   })
+// })
 
 
 // setting route connections
