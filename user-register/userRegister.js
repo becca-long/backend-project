@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const app = express()
 const db = require('../models')
+const validator = require('email-validator')
+
 
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
@@ -13,7 +15,6 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 module.exports = router
-
 
 
 
@@ -39,59 +40,104 @@ function createNewUser(userName, hash, firstName, lastName) {
 // CHECKS IF USER EXISTING OR NOT
 
 function checkIfExisting(username) {
+    console.log(username)
     db.user.findOne({
             where: {
                 username: username
             }
         })
         .then((user) => {
-            if (user === username) {
-                console.log('false')
+            console.log('THIS IS USER', user.dataValues.username)
+            let dataUser = user.dataValues.username
+            if (dataUser === username) {
+                console.log('true')
                 return true
             }
-            if (user !== username) {
+            if (dataUser !== username) {
+                console.log('false')
                 return false
+                
             }
         })
-        .cath((er) => {
+        .catch((er) => {
             console.log(er)
         })
 }
 
-// router.get('/signup', (req, res) => {
-//     res.render()
-// })
 
 
 
+router.get('/signup/email/invalid', (req, res) => {
 
-router.post('/api/create/username/:userName', (req, res) => {
-    let userName = req.params.userName
+})
+
+router.post('/signup', (req, res) => {
+    let userName = req.body.username
     let password = req.body.password
     let firstName = req.body.firstname
     let lastName = req.body.lastname
-    if (req.params.userName) {
+    console.log(userName, password, firstName, lastName)
 
-        if (password) {
-            // HASH AND SALT THE USER PASSWORD
-            bcrypt.hash(password, saltRounds)
-                .then((hash) => {
-                    if (hash) {
-                        // IF USER DOES NOT EXIST
-                        if (!checkIfExisting(userName)) {
-                            createNewUser(userName, hash, firstName, lastName)
-                            res.redirect('/')
-                        } else {
-                            res.json({
-                                error: 'Username is already taken'
-                            })
+    if (userName) {
+        if (validator.validate(userName)) {
+            console.log('Valid email')
+            if (password) {
+                // HASH AND SALT THE USER PASSWORD
+                bcrypt.hash(password, saltRounds)
+                    .then((hash) => {
+                        if (hash) {
+                            // IF USER DOES NOT EXIST
+                            if (checkIfExisting(userName)) {
+                                createNewUser(userName, hash, firstName, lastName)
+                                res.redirect('/')
+                            } else {
+                                res.render('userRegister', {
+                                    pageTitle: "Register",
+                                    pageiD: "REGISTER",
+                                    message: message,
+                                    displayMessage: css,
+                                })
+                            }
+                        }else{
+                            console.log('No password')
                         }
-                    }
-                })
+                    })
+                    .catch((er) => {
+                        console.log(er)
+                    })
+            }else{
+                console.log('No password')
+            }
+        } else {
+            //THIS IS FOR INVALID USERNAMES
+            css = 'block'
+            message = 'Error invalid username'
+            es.render('userRegister', {
+                pageTitle: "Register",
+                pageiD: "REGISTER",
+                message: message,
+                displayMessage: css,
+            })
         }
         // CHECKING IF USERNAME IS NOT UNDEFINED
     } else if (!req.params.userName) {
         console.log('User name is undefined')
     }
 
+})
+
+
+router
+
+
+
+router.get('/signup', (req, res) => {
+    css = 'block'
+    message = 'Error invalid username'
+    res.render('userRegister', {
+        pageTitle: "Register",
+        pageiD: "REGISTER",
+        message: message,
+        displayMessage: css,
+    })
 })
