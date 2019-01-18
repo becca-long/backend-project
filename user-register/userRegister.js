@@ -1,13 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const app = express()
 const db = require('../models')
 const validator = require('email-validator')
 
 
 const bodyParser = require('body-parser')
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({
+router.use(bodyParser.json())
+router.use(bodyParser.urlencoded({
     extended: false
 }))
 
@@ -22,13 +21,13 @@ const renderObject = {
     pageTitle: "Register",
     pageiD: "REGISTER",
     message: '',
-    displayMessage: '',
+    displayMessage: 'none',
     password: '',
-    displayPass: '',
+    displayPass: 'none',
     fNameMessage: '',
-    fNameCss: '',
+    fNameCss: 'none',
     lNameMessage: '',
-    lNameCss : ''  
+    lNameCss: 'none'
 
 }
 
@@ -89,24 +88,37 @@ router.post('/signup', (req, res) => {
     let firstName = req.body.firstname
     let lastName = req.body.lastname
     console.log(userName, password, firstName, lastName)
-    if (!firstName) {
-        
-        res.render('userRegister', renderObject)
-    }
-    if (!lastName) {
 
-        res.render('userRegister', renderObject)
-    }
     if (userName) {
         if (validator.validate(userName)) {
             console.log('Valid email')
+            renderObject.displayMessage = 'none'
+            renderObject.message = ""
             if (password) {
+                renderObject.displayPass = 'none'
+                renderObject.password = ''
+                if (!firstName) {
+                    renderObject.fNameMessage = 'Required First Name'
+                    renderObject.fNameCss = 'block'
+                    res.render('userRegister', renderObject)
+                }
+                if (!lastName) {
+                    renderObject.lNameMessage = 'Required Last Name'
+                    renderObject.lNameCss = 'block'
+                    res.render('userRegister', renderObject)
+                }
                 // HASH AND SALT THE USER PASSWORD
+                renderObject.fNameMessage = ''
+                renderObject.fNameCss = 'none'
+                renderObject.lNameMessage = ''
+                renderObject.lNameCss = 'none'
                 bcrypt.hash(password, saltRounds)
                     .then((hash) => {
                         if (hash) {
                             // IF USER DOES NOT EXIST
                             if (checkIfExisting(userName)) {
+                                renderObject.displayMessage = 'none'
+                                renderObject.message = ""
                                 createNewUser(userName, hash, firstName, lastName)
                                 res.redirect('/')
                             } else {
@@ -114,8 +126,6 @@ router.post('/signup', (req, res) => {
                                 renderObject.message = "Email already taken"
                                 res.render('userRegister', renderObject)
                             }
-                        } else {
-                            console.log('No password')
                         }
                     })
                     .catch((er) => {
@@ -123,19 +133,20 @@ router.post('/signup', (req, res) => {
                     })
             } else {
                 console.log('No password')
-                renderObject.displayMessage = 'block'
+                renderObject.displayPass = 'block'
                 renderObject.password = 'No password'
                 res.render('userRegister', renderObject)
             }
         } else {
             //THIS IS FOR INVALID USERNAMES
             renderObject.displayMessage = 'block'
-            let message = 'Error invalid username'
+            renderObject.message = 'Error invalid email'
             res.render('userRegister', renderObject)
         }
         // CHECKING IF USERNAME IS NOT UNDEFINED
     } else if (!req.params.userName) {
         console.log('User name is undefined')
+        res.render('userRegister', renderObject)
     }
 
 })
@@ -146,12 +157,6 @@ router
 
 
 router.get('/signup', (req, res) => {
-    let css = 'none'
-    let message = ''
-    res.render('userRegister', {
-        pageTitle: "Register",
-        pageiD: "REGISTER",
-        message: message,
-        displayMessage: css,
-    })
+
+    res.render('userRegister', renderObject)
 })

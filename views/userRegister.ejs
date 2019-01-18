@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Document</title>
 </head>
 
 <body>
     <h1>Register</h1>
-    <form action="/signup" method="post">
+    <form action="/signup" method="post" id='register-form'>
         <div>
-            <label>Emaail:</label>
+            <label>Email:</label>
             <input type="text" name="username" />
             <p class='error-message' style="color:red;display:<%=displayMessage%>;"><%=message%></p>
             <br />
@@ -20,25 +21,26 @@
         <div>
             <label>Password:</label>
             <input type="password" name="password" />
-            <p class='error-message' style="color:red;display:<%=displayMessage%>;"><%=password%></p>
+            <p class='error-message' style="color:red;display:<%=displayPass%>;"><%=password%></p>
         </div>
         <div>
             <div>
                 <label>First name:</label>
                 <input type="text" name="firstname" />
+                <p class='error-message' style="color:red;display:<%=fNameCss%>;"><%=fNameMessage%></p>
                 <br />
             </div>
             <div>
                 <label>Last name:</label>
                 <input type="text" name="lastname" />
+                <p class='error-message' style="color:red;display:<%=lNameCss%>;"><%=lNameMessage%></p>
             </div>
             <div>
                 <input type="submit" value="Submit" />
             </div>
-            <div>
-                <p></p>
-            </div>
+
     </form>
+
 
 
 
