@@ -12,7 +12,7 @@
     <h1>Register</h1>
     <form action="/signup" method="post">
         <div>
-            <label>Username:</label>
+            <label>Emaail:</label>
             <input type="text" name="username" />
             <p class='error-message' style="color:red;display:<%=displayMessage%>;"><%=message%></p>
             <br />
@@ -20,6 +20,7 @@
         <div>
             <label>Password:</label>
             <input type="password" name="password" />
+            <p class='error-message' style="color:red;display:<%=displayMessage%>;"><%=password%></p>
         </div>
         <div>
             <div>

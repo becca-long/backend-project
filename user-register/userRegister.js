@@ -18,7 +18,19 @@ module.exports = router
 
 
 
+const renderObject = {
+    pageTitle: "Register",
+    pageiD: "REGISTER",
+    message: '',
+    displayMessage: '',
+    password: '',
+    displayPass: '',
+    fNameMessage: '',
+    fNameCss: '',
+    lNameMessage: '',
+    lNameCss : ''  
 
+}
 
 function createNewUser(userName, hash, firstName, lastName) {
     db.user
@@ -56,7 +68,7 @@ function checkIfExisting(username) {
             if (dataUser !== username) {
                 console.log('false')
                 return false
-                
+
             }
         })
         .catch((er) => {
@@ -77,7 +89,14 @@ router.post('/signup', (req, res) => {
     let firstName = req.body.firstname
     let lastName = req.body.lastname
     console.log(userName, password, firstName, lastName)
+    if (!firstName) {
+        
+        res.render('userRegister', renderObject)
+    }
+    if (!lastName) {
 
+        res.render('userRegister', renderObject)
+    }
     if (userName) {
         if (validator.validate(userName)) {
             console.log('Valid email')
@@ -91,33 +110,28 @@ router.post('/signup', (req, res) => {
                                 createNewUser(userName, hash, firstName, lastName)
                                 res.redirect('/')
                             } else {
-                                res.render('userRegister', {
-                                    pageTitle: "Register",
-                                    pageiD: "REGISTER",
-                                    message: message,
-                                    displayMessage: css,
-                                })
+                                renderObject.displayMessage = 'block'
+                                renderObject.message = "Email already taken"
+                                res.render('userRegister', renderObject)
                             }
-                        }else{
+                        } else {
                             console.log('No password')
                         }
                     })
                     .catch((er) => {
                         console.log(er)
                     })
-            }else{
+            } else {
                 console.log('No password')
+                renderObject.displayMessage = 'block'
+                renderObject.password = 'No password'
+                res.render('userRegister', renderObject)
             }
         } else {
             //THIS IS FOR INVALID USERNAMES
-            css = 'block'
-            message = 'Error invalid username'
-            es.render('userRegister', {
-                pageTitle: "Register",
-                pageiD: "REGISTER",
-                message: message,
-                displayMessage: css,
-            })
+            renderObject.displayMessage = 'block'
+            let message = 'Error invalid username'
+            res.render('userRegister', renderObject)
         }
         // CHECKING IF USERNAME IS NOT UNDEFINED
     } else if (!req.params.userName) {
@@ -132,8 +146,8 @@ router
 
 
 router.get('/signup', (req, res) => {
-    css = 'block'
-    message = 'Error invalid username'
+    let css = 'none'
+    let message = ''
     res.render('userRegister', {
         pageTitle: "Register",
         pageiD: "REGISTER",
