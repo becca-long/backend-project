@@ -26,8 +26,13 @@ const passport = require('passport')
 router.use(passport.initialize());
 router.use(passport.session());
 
-router.get('/success', (req, res) => res.send("Welcome " + req.query.username + "!!"));
-router.get('/', (req, res) => res.send("Error logging in. Please register"));
+router.get('/success', (req, res) => {
+    res.render('playlist', {
+        pageTitle: req.query.username,
+        pageID: 'playlist'
+    })
+})
+router.get('/error', (req, res) => res.send("Error logging in. Please register"));
 
 passport.serializeUser(function (user, cb) {
     cb(null, user.id);
@@ -46,42 +51,42 @@ passport.deserializeUser(function (id, cb) {
 const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
-function (username, password, done) {
-    db.user.findOne({
-            where: {
-                username: username
-            }
-        })
-        .then((user) => {
-            if (!user) {
-                return done(null, undefined)
-            }
-            // COMPARES THE HASHED PASSWORDS
-            bcrypt.compare(password, user.dataValues.password)
-                .then((res) => {
-                    if (res) {
-                        // IF TRUE RETURN DONE SUCCESS
-                        return done(null, user.dataValues)
-                    } else {
-                        // ELSE WILL NOT LOG IN
-                        return done(null, undefined)
-                    }
-                })
-                .catch((er) => {
-                    console.log(er)
-                })
+    function (username, password, done) {
+        db.user.findOne({
+                where: {
+                    username: username
+                }
+            })
+            .then((user) => {
+                if (!user) {
+                    return done(null, undefined)
+                }
+                // COMPARES THE HASHED PASSWORDS
+                bcrypt.compare(password, user.dataValues.password)
+                    .then((res) => {
+                        if (res) {
+                            // IF TRUE RETURN DONE SUCCESS
+                            return done(null, user.dataValues)
+                        } else {
+                            // ELSE WILL NOT LOG IN
+                            return done(null, undefined)
+                        }
+                    })
+                    .catch((er) => {
+                        console.log(er)
+                    })
 
-        })
-        .catch((er) => {
-            console.log(er)
-        })
+            })
+            .catch((er) => {
+                console.log(er)
+            })
     }))
 
 
 // TAKES USERS LOGIN AND PASSWORD AND AUTHENTICATES IT
-router.post('/login',
+router.post('/login/user',
     passport.authenticate('local', {
-        failureRedirect: '/'
+        failureRedirect: '/error'
     }),
     function (req, res) {
         console.log('Req.user', req.user)

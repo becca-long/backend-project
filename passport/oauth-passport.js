@@ -15,7 +15,6 @@ module.exports = router
 const passport = require('passport')
 
 
-router.get('/success', (req, res) => res.send("You have successfully logged in"))
 router.get('/error', (req, res) => res.send("error logging in"))
 
 passport.serializeUser(function (user, cb) {
@@ -39,7 +38,7 @@ const FACEBOOK_APP_SECRET = '57bee9443c6964d6725391937acc3460'
 passport.use(new FacebookStrategy({
         clientID: FACEBOOK_APP_ID,
         clientSecret: FACEBOOK_APP_SECRET,
-        callbackURL: "/auth/facebook/callback"
+        callbackURL: "/facebook/callback"
     },
     function (accessToken, refreshToken, profile, cb) {
         console.log(profile)
@@ -47,7 +46,7 @@ passport.use(new FacebookStrategy({
     }
 ))
 
-router.get('/facebook',
+router.get('/auth/facebook',
     passport.authenticate('facebook'))
 
 router.get('/facebook/callback',
@@ -56,7 +55,7 @@ router.get('/facebook/callback',
     }),
     // TODO UPDATE WHERE IT REDIRECTS TO
     function (req, res) {
-        res.redirect('/auth/success')
+        res.redirect('/success')
     })
 
 

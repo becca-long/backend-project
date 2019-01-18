@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Register</h1>
+    <form action="/signup" method="post">
+        <div>
+            <label>Username:</label>
+            <input type="text" name="username" />
+            <p class='error-message' style="color:red;display:<%=displayMessage%>;"><%=message%></p>
+            <br />
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" name="password" />
+        </div>
+        <div>
+            <div>
+                <label>First name:</label>
+                <input type="text" name="firstname" />
+                <br />
+            </div>
+            <div>
+                <label>Last name:</label>
+                <input type="text" name="lastname" />
+            </div>
+            <div>
+                <input type="submit" value="Submit" />
+            </div>
+            <div>
+                <p></p>
+            </div>
+    </form>
+
+
+
+</body>
+
+</html>

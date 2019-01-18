@@ -25,7 +25,16 @@ app.use(require('./user-register/userRegister'))
 app.use(require('./passport/local-passport'))
 app.use(require('./routes/userSearch'))
 app.use(require('./routes/userPlaylist'))
+
 app.use(require('./routes/dashboard'))
+
+app.get('/login', (req, res)=>{
+  res.render('login',{
+    pageTitle: "Login",
+    pageID: 'login' 
+  })
+})
+
 
 // setting route connections
 app.get('/api/test-data', (req, res, nextFn) => {
