@@ -6,17 +6,70 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-    <title>Document</title>
+    <title>Copy Cat</title>
 </head>
 <body>
     <!--work this out later. need the structure of the sidebar to sit correctly-->
-    <div> <% include ./partials/navbar.ejs %> </div>
+<div> <% include ./partials/navbar.ejs %> </div>
 
-   <div class="container-fluid"> 
-       <div><% include ./partials/sidebar.ejs %></div>
-       <div><h1>Welcome back!</h1></div>
-   </div>
-   
+<!-- side nav goes here -->
+<div class=container-fluid>
+    <div class="row">
+        <div class="col-"> <% include ./partials/sidebar.ejs %> </div>
+    
+
+<!--main div goes here--> 
+      <div class="col-md" id="dashboard-main">
+          <!-- using jumbtron to add spacing and depth -->
+          <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                  <h1 class="display-4">Welcome (insert username here) !</h1>   
+                </div>
+              </div>
+            
+            
+            <br>
+            <button type="button" class="btn btn-primary btn-lg">Create Playlist</button>
+            
+        <!--Form version 2 with playlist created. populate structure as part of dashboard.ejs-->
+         <br>
+        <br>
+
+       <!--Playlist name and img-->
+        <!-- <div class="container-fluid">
+            <div>
+                <div class="col-0"><img src="#"></div>
+                <div class="col-6"><h1>Playlist name here</h1></div>
+           </div>
+        </div> -->
+      </div>
+    </div>
+</div>
+        <!--Playlist setup-->
+        <!-- <div class="container">
+                <div class="row">
+                  <div class="col-sm">
+                    <h2>Title</h2> 
+                  </div>
+                  <div class="col-sm">
+                    <h2>Artist</h2>
+                  </div>
+                  
+                </div>
+        </div> -->
+        <!--insert playlist song loop here-->
+        <!-- <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                          
+                </div>
+                <div class="col-sm">
+                          
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
 
 
 

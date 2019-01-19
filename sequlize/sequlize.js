@@ -1,8 +1,7 @@
 
 const searchFunctions = {
     getSong: getSong,
-    getAlbum: getAlbum
-
+    getAlbum: getAlbum,
 }
 module.exports= searchFunctions
 
@@ -47,5 +46,4 @@ function getAlbum(term){
     })
 
 }
-
 
