@@ -60,17 +60,9 @@ app.use(require('./routes/dashboard'))
 
 app.get('/user/logout', (req, res) => {
   if (req.session) {
-    req.session.destroy((er) => {
-      if (er) {
-        res.send({
-          success: true
-        })
-      } else {
-        res.send({
-          success: false
-        })
-      }
-    })
+    req.session = null;
+    console.log('This is sessions', req.session)
+    res.send({message: "Deleted"})
   }
 })
 
