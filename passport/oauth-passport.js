@@ -55,6 +55,8 @@ router.get('/facebook/callback',
     }),
     // TODO UPDATE WHERE IT REDIRECTS TO
     function (req, res) {
+        let sessData = req.session
+            sessData.user= user
         res.redirect('/success')
     })
 
@@ -87,6 +89,8 @@ router.get('/auth/github/callback',
     }),
     // TODO UPDATE WHERE IT REDIRECTS TO
     function (req, res) {
+        let sessData = req.session
+            sessData.user= user
         res.redirect('/success')
     })
 

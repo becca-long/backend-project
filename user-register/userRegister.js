@@ -125,6 +125,8 @@ router.post('/signup', (req, res) => {
                                 renderObject.displayMessage = 'none'
                                 renderObject.message = ""
                                 createNewUser(userName, hash, firstName, lastName)
+                                let sessData = req.session
+                                sessData.user = user
                                 res.redirect('/login')
                             } else {
                                 renderObject.displayMessage = 'block'
@@ -163,7 +165,6 @@ router
 
 
 router.get('/signup', (req, res) => {
-    console.log('this is sessios', req.session)
     renderObject.message = '',
         renderObject.displayMessage = 'none',
         renderObject.password = '',
