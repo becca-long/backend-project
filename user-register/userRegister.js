@@ -125,9 +125,10 @@ router.post('/signup', (req, res) => {
                                 renderObject.displayMessage = 'none'
                                 renderObject.message = ""
                                 createNewUser(userName, hash, firstName, lastName)
+                                user = {}
                                 let sessData = req.session
-                                sessData.user = user
-                                res.redirect('/login')
+                                sessData.user = {username:userName, password:hash, firstname: firstName, lastname: lastName}
+                                res.redirect('/dashboard')
                             } else {
                                 renderObject.displayMessage = 'block'
                                 renderObject.message = "Email already taken"

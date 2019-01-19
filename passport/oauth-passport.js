@@ -78,7 +78,7 @@ router.get('/facebook/callback',
     function (req, res) {
         let sessData = req.session
         sessData.user = req.user.username
-        res.redirect('/success/')
+        res.redirect('/dashboard')
     })
 
 
@@ -126,7 +126,7 @@ router.get('/auth/github/callback',
     function (req, res) {
         let sessData = req.session
         sessData.user = req.user.username
-        res.redirect('/success/')
+        res.redirect('/dashboard')
     })
 
 
