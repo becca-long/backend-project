@@ -24,6 +24,8 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 router.get('/success', (req, res) => {
+    console.log('This is the cookies', req.session)
+
     res.render('playlist', {
         pageTitle: req.query.username,
         pageID: 'playlist'
@@ -117,9 +119,7 @@ router.post('/login', function (req, res, next) {
 
 
 router.get('/login', (req, res) => {
-    // if(req.session.user.username){
-    //     res.redirect('/success')
-    // }
+
     if(req.session.user){
         res.redirect('/success')
     }
