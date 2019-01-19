@@ -5,6 +5,30 @@ const passport = require('passport')
 const routerOauth = require('./passport/oauth-passport.js')
 const ejs = require('ejs')
 
+const session =  require('express-session')
+
+
+
+
+const sessionsObj = {
+  secret: 'copycat secret',
+  resave: 'false',
+  saveUninitialized : 'false',
+  cookie: {}
+
+}
+
+
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
+}
+
+
+app.use(session(sessionsObj))
+
+
+module.export = app
 // setting the view engine to look for ejs files
 app.set('view engine', 'ejs')
 
@@ -13,6 +37,8 @@ app.use(bodyParser.urlencoded({
   extended: false
 }))
 const cookieParser = require('cookie-parser')
+
+
 
 app.use(cookieParser())
 app.use(passport.initialize())
@@ -29,12 +55,7 @@ app.use(require('./routes/createPlaylist'))
 
 app.use(require('./routes/dashboard'))
 
-app.get('/login', (req, res)=>{
-  res.render('login',{
-    pageTitle: "Login",
-    pageID: 'login' 
-  })
-})
+
 
 
 // setting route connections
