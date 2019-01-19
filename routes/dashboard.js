@@ -7,6 +7,8 @@ const db = require('../models/')
 // })
 
 router.get('/dashboard', (req, res) => {
+  console.log(req.session)
+
   res.render('index', {
     pageTitle: 'home',
     pageID: 'home',
