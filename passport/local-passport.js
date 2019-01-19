@@ -2,15 +2,12 @@ const express = require('express')
 const router = express.Router()
 
 
-const app = express();
+const app = require('../server')
 
 const bcrypt = require('bcrypt')
 
 
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
 
 module.exports = router
 
@@ -52,43 +49,77 @@ const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
     function (username, password, done) {
-        db.user.findOne({
-                where: {
-                    username: username
-                }
-            })
-            .then((user) => {
-                if (!user) {
-                    return done(null, undefined)
-                }
-                // COMPARES THE HASHED PASSWORDS
-                bcrypt.compare(password, user.dataValues.password)
-                    .then((res) => {
-                        if (res) {
-                            // IF TRUE RETURN DONE SUCCESS
-                            return done(null, user.dataValues)
-                        } else {
-                            // ELSE WILL NOT LOG IN
-                            return done(null, undefined)
-                        }
-                    })
-                    .catch((er) => {
-                        console.log(er)
-                    })
+        if (username) {
+            db.user.findOne({
+                    where: {
+                        username: username
+                    }
+                })
+                .then((user) => {
+                    console.log((user))
+                    if (!user) {
+                        return done(null, undefined, {message : "Unknown email"})
+                        // HAVE THEM RENDER SHOW SIGNUP BUTTON
+                    }
+                    // COMPARES THE HASHED PASSWORDS
+                    bcrypt.compare(password, user.dataValues.password)
+                        .then((res) => {
+                            if (res) {
+                                // IF TRUE RETURN DONE SUCCESS
+                                return done(null, user.dataValues)
+                            } else {
+                                // ELSE WILL NOT LOG IN
+                                return done(null, undefined, {message : "Inccorect password"})
+                            }
+                        })
+                        .catch((er) => {
+                            console.log(er)
+                        })
 
-            })
-            .catch((er) => {
-                console.log(er)
-            })
+                })
+                .catch((er) => {
+                    console.log(er)
+                })
+        } else {
+            console.log('No username')
+        }
+
     }))
 
+renderObject = {
+    pageTitle: "login",
+    pgeaID: "login",
+    display: '',
+    errorMessage: ''
+}
 
-// TAKES USERS LOGIN AND PASSWORD AND AUTHENTICATES IT
-router.post('/login/user',
-    passport.authenticate('local', {
-        failureRedirect: '/error'
-    }),
-    function (req, res) {
-        console.log('Req.user', req.user)
-        res.redirect('/success?username=' + req.user.username);
-    });
+
+
+
+
+router.post('/login', function (req, res, next) {
+    passport.authenticate('local', function (err, user, info) {
+        if (user) {
+            console.log("Hi")
+            // redirect them to PLAYLIST
+            // Add seed
+            let sessData = req.session
+            sessData.user= user
+            res.redirect('/signup')
+        } else {
+            renderObject.display = 'block'
+            renderObject.errorMessage = info.message
+            res.render('login',renderObject)
+
+        }
+    })(req, res, next);
+});
+
+
+
+
+router.get('/login', (req, res) => {
+    renderObject.display = 'none'
+    renderObject.errorMessage = ''
+    res.render('login', renderObject)
+})

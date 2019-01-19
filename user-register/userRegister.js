@@ -4,6 +4,10 @@ const db = require('../models')
 const validator = require('email-validator')
 
 
+
+
+
+
 const bodyParser = require('body-parser')
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({
@@ -58,16 +62,23 @@ function checkIfExisting(username) {
             }
         })
         .then((user) => {
-            console.log('THIS IS USER', user.dataValues.username)
-            let dataUser = user.dataValues.username
-            if (dataUser === username) {
-                console.log('true')
-                return true
-            }
-            if (dataUser !== username) {
-                console.log('false')
-                return false
+            console.log('Hi this is me',user)
+            if (user) {
+                console.log('THIS IS USER', user.dataValues.username)
 
+                let dataUser = user.dataValues.username
+                console.log('This is datauser', dataUser)
+                if (dataUser === username) {
+                    console.log('true')
+                    return true
+                }
+                if (dataUser !== username) {
+                    console.log('false')
+                    return false
+                }
+            }else{
+                console.log('Hi')
+                return false;
             }
         })
         .catch((er) => {
@@ -116,7 +127,7 @@ router.post('/signup', (req, res) => {
                     .then((hash) => {
                         if (hash) {
                             // IF USER DOES NOT EXIST
-                            if (checkIfExisting(userName)) {
+                            if (!checkIfExisting(userName)) {
                                 renderObject.displayMessage = 'none'
                                 renderObject.message = ""
                                 createNewUser(userName, hash, firstName, lastName)
@@ -146,6 +157,7 @@ router.post('/signup', (req, res) => {
         // CHECKING IF USERNAME IS NOT UNDEFINED
     } else if (!req.params.userName) {
         console.log('User name is undefined')
+
         res.render('userRegister', renderObject)
     }
 
@@ -157,6 +169,14 @@ router
 
 
 router.get('/signup', (req, res) => {
-
+    console.log('this is sessios', req.session)
+    renderObject.message = '',
+        renderObject.displayMessage = 'none',
+        renderObject.password = '',
+        renderObject.displayPass = 'none',
+        renderObject.fNameMessage = '',
+        renderObject.fNameCss = 'none',
+        renderObject.lNameMessage = '',
+        renderObject.lNameCss = 'none'
     res.render('userRegister', renderObject)
 })
