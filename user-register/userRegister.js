@@ -4,6 +4,10 @@ const db = require('../models')
 const validator = require('email-validator')
 
 
+
+
+
+
 const bodyParser = require('body-parser')
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({
@@ -165,6 +169,7 @@ router
 
 
 router.get('/signup', (req, res) => {
+    console.log('this is sessios', req.session)
     renderObject.message = '',
         renderObject.displayMessage = 'none',
         renderObject.password = '',

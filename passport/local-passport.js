@@ -2,15 +2,12 @@ const express = require('express')
 const router = express.Router()
 
 
-const app = express();
+const app = require('../server')
 
 const bcrypt = require('bcrypt')
 
 
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
 
 module.exports = router
 
@@ -103,10 +100,12 @@ renderObject = {
 router.post('/login', function (req, res, next) {
     passport.authenticate('local', function (err, user, info) {
         if (user) {
+            console.log("Hi")
             // redirect them to PLAYLIST
-            res.send({
-                user: user
-            });
+            // Add seed
+            let sessData = req.session
+            sessData.user= user
+            res.redirect('/signup')
         } else {
             renderObject.display = 'block'
             renderObject.errorMessage = info.message
