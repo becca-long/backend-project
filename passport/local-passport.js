@@ -23,14 +23,7 @@ const passport = require('passport')
 router.use(passport.initialize());
 router.use(passport.session());
 
-router.get('/success', (req, res) => {
-    console.log('This is the cookies', req.session)
 
-    res.render('playlist', {
-        pageTitle: req.query.username,
-        pageID: 'playlist'
-    })
-})
 router.get('/error', (req, res) => res.send("Error logging in. Please register"));
 
 passport.serializeUser(function (user, cb) {
@@ -105,7 +98,7 @@ router.post('/login', function (req, res, next) {
             // Add seed
             let sessData = req.session
             sessData.user= user
-            res.redirect('/signup')
+            res.redirect('/dashboard')
         } else {
             renderObject.display = 'block'
             renderObject.errorMessage = info.message
@@ -121,7 +114,7 @@ router.post('/login', function (req, res, next) {
 router.get('/login', (req, res) => {
 
     if(req.session.user){
-        res.redirect('/success')
+        res.redirect('/dashboard')
     }
     console.log('In local-passport', req.session)
     renderObject.display = 'none'
