@@ -62,22 +62,16 @@ function checkIfExisting(username) {
             }
         })
         .then((user) => {
-            console.log('Hi this is me',user)
             if (user) {
-                console.log('THIS IS USER', user.dataValues.username)
 
                 let dataUser = user.dataValues.username
-                console.log('This is datauser', dataUser)
                 if (dataUser === username) {
-                    console.log('true')
                     return true
                 }
                 if (dataUser !== username) {
-                    console.log('false')
                     return false
                 }
-            }else{
-                console.log('Hi')
+            } else {
                 return false;
             }
         })
@@ -131,7 +125,7 @@ router.post('/signup', (req, res) => {
                                 renderObject.displayMessage = 'none'
                                 renderObject.message = ""
                                 createNewUser(userName, hash, firstName, lastName)
-                                res.redirect('/')
+                                res.redirect('/login')
                             } else {
                                 renderObject.displayMessage = 'block'
                                 renderObject.message = "Email already taken"

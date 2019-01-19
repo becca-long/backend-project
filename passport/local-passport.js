@@ -56,7 +56,6 @@ passport.use(new LocalStrategy(
                     }
                 })
                 .then((user) => {
-                    console.log((user))
                     if (!user) {
                         return done(null, undefined, {message : "Unknown email"})
                         // HAVE THEM RENDER SHOW SIGNUP BUTTON
@@ -100,7 +99,6 @@ renderObject = {
 router.post('/login', function (req, res, next) {
     passport.authenticate('local', function (err, user, info) {
         if (user) {
-            console.log("Hi")
             // redirect them to PLAYLIST
             // Add seed
             let sessData = req.session
@@ -119,6 +117,13 @@ router.post('/login', function (req, res, next) {
 
 
 router.get('/login', (req, res) => {
+    // if(req.session.user.username){
+    //     res.redirect('/success')
+    // }
+    if(req.session.user){
+        res.redirect('/success')
+    }
+    console.log('In local-passport', req.session)
     renderObject.display = 'none'
     renderObject.errorMessage = ''
     res.render('login', renderObject)
