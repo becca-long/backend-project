@@ -59,8 +59,10 @@ passport.use(new LocalStrategy(
                     }
                 })
                 .then((user) => {
+                    console.log((user))
                     if (!user) {
-                        return done(null, undefined)
+                        return done(null, undefined, {message : "Unknown email"})
+                        // HAVE THEM RENDER SHOW SIGNUP BUTTON
                     }
                     // COMPARES THE HASHED PASSWORDS
                     bcrypt.compare(password, user.dataValues.password)
@@ -70,7 +72,7 @@ passport.use(new LocalStrategy(
                                 return done(null, user.dataValues)
                             } else {
                                 // ELSE WILL NOT LOG IN
-                                return done(null, undefined)
+                                return done(null, undefined, {message : "Inccorect password"})
                             }
                         })
                         .catch((er) => {
@@ -82,35 +84,33 @@ passport.use(new LocalStrategy(
                     console.log(er)
                 })
         } else {
-            done(null, undefined, 'Username cannot be invalid')
+            console.log('No username')
         }
 
     }))
 
+renderObject = {
+    pageTitle: "login",
+    pgeaID: "login",
+    display: '',
+    errorMessage: ''
+}
 
-// TAKES USERS LOGIN AND PASSWORD AND AUTHENTICATES IT
-// router.post('/login/user', passport.authenticate('local', function(err,user,info){
 
-// }), 
-//     function (req, res) {
-//         console.log('Req.user', req.user)
-//         res.redirect('/success?username=' + req.user.username);
-//     });
 
 
 
 router.post('/login', function (req, res, next) {
     passport.authenticate('local', function (err, user, info) {
-        console.log(err, user, info);
         if (user) {
+            // redirect them to PLAYLIST
             res.send({
                 user: user
             });
         } else {
-            res.send({
-                error: err,
-                info: info
-            });
+            renderObject.display = 'block'
+            renderObject.errorMessage = info.message
+            res.render('login',renderObject)
 
         }
     })(req, res, next);
@@ -118,9 +118,9 @@ router.post('/login', function (req, res, next) {
 
 
 
+
 router.get('/login', (req, res) => {
-    res.render('login', {
-        pageTitle: "Login",
-        pageID: 'login'
-    })
+    renderObject.display = 'none'
+    renderObject.errorMessage = ''
+    res.render('login', renderObject)
 })
