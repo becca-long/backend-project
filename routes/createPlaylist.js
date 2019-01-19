@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const db = require('../models')
 
 const bodyParser = require('body-parser');
 router.use(bodyParser.json());
@@ -7,23 +8,32 @@ router.use(bodyParser.urlencoded({
     extended: false
 }));
 
-const getData = require('../sequlize/playlist');
+router.post('/api/playlist', createPlaylistRoute)
 
-router.post('/api/playlist', (req, res) => {
-    console.log('Someone called the playlist route')
-    let input = 'Demo playlist'
-    //'Demo playlist' will become req.body.'name of playlist input tag'
-    console.log(input)
-    getData.createPlaylist(input)
-    .then((newPage)=>{
-        res.redirect('/test/endpoint')
-        //newPage should be endpoint '/...' that will .get html page
+function createPlaylistRoute (req, res, next) {
+    //To Do: Update 'req.body' to match form input on front end
+    createPlaylist(req.session.user.id, req.body)
+    //To Do: Add in catch function with error handling
+    .catch()
+    .then((result) => {
+        console.log('success')
+        res.redirect('/userPlaylist?added=true')
     })
-})
+}
 
-router.get('/test/endpoint', (req, res) => {
-    console.log('success')
-    res.end()
-})
+function createPlaylist (userid, title) {
+    // create playlist, then call linkUsertoPlaylist
+        return db.playlist.create({
+                title: title
+        })
+        .then(function linkUserToPlaylist (result) {
+            var playlistId = result.dataValues.id
+            var userId = userid
+            return db.user_playlist.create({
+                user_id: userId,
+                playlist_id: playlistId
+            })
+        })
+}
 
 module.exports = router
