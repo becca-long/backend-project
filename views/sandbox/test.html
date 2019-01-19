@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Copy Cat</title>
+  </head>
+  <body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+            <img src="/images/copy-cat-logo.png" width="50" height="50" alt="">  Copy Cat</a>
+      
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            
+          </ul>
+          <!--user icon and acount actions here-->
+          <!--finish adding the dropdown menu option for user account-->
+          <div class="dropdown"><div></div>
+          <!--user account dropdown-->
+            <a class="btn btn-secondary dropdown-toggle" href=# role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                User Info
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <h1>Welcome to Copy Cat!</h1>
+
+    <!--dashboard goes here-->
+
+      <div class="container-fluid">
+        <div class="row">
+            <div class="container col-2">
+                <div class="container" id="dashboard-left-panel">
+                <!--Main controls left panel-->
+                 <div class="btn-group-vertical">
+                     <button type="button" class="btn btn-outline-secondary">Home</button>
+                     <button type="button" class="btn btn-outline-secondary">Browse</button>
+                     <button type="button" class="btn btn-outline-secondary">Radio</button>
+                 </div>
+                 <br>
+                 <br>
+                 <!--Library buttons-->
+                 <h5>Your Library</h5>
+                 <div class="btn-group-vertical">
+                    <button type="button" class="btn btn-outline-secondary">Made for You</button>
+                    <button type="button" class="btn btn-outline-secondary">Recently Played</button>
+                    <button type="button" class="btn btn-outline-secondary">Songs</button>
+                    <button type="button" class="btn btn-outline-secondary">Albums</button>
+                    <button type="button" class="btn btn-outline-secondary">Artists</button>
+                    <button type="button" class="btn btn-outline-secondary">Stations</button>
+                 </div>
+
+                 <br>
+                 <br>
+
+                 <h5>Playlists</h5>
+                 <div class="btn-group-vertical">
+                     <!--Buuld Loop function to populate playlist names here-->
+                    <button type="button" class="btn btn-outline-secondary">Playlist 1</button>
+                 </div>
+
+                </div>
+            </div>
+            <div class="col-lg" id="dashboard-main">
+                Right Side
+                
+                <br>
+                <button type="button" class="btn btn-primary btn-lg">Create Playlist</button>
+                
+            <!--Form version 2 with playlist created. populate structure as part of dashboard.ejs-->
+           <br>
+           <br>
+
+           <!--Playlist name and img-->
+           <div class="container-fluid">
+                <div class="row">
+                    <div class="col-0"><img src="#"></div>
+                    <div class="col-6"><h1>Playlist name here</h1></div>
+               </div>
+            </div>
+           
+            <!--Playlist setup-->
+            <div class="container">
+                    <div class="row">
+                      <div class="col-sm">
+                        <h2>Title</h2> 
+                      </div>
+                      <div class="col-sm">
+                        <h2>Artist</h2>
+                      </div>
+                      
+                    </div>
+            </div>
+            <!--insert playlist song loop here-->
+            <div class="container">
+                    <div class="row">
+                            <div class="col-sm">
+                              
+                            </div>
+                            <div class="col-sm">
+                              
+                            </div>
+            </div>
+            </div>
+        </div>
+     </div> 
+
+
+
+
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  </body>
+</html>
