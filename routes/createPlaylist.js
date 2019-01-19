@@ -8,15 +8,97 @@ router.use(bodyParser.urlencoded({
 }));
 
 const getData = require('../sequlize/playlist');
+const userName = require('../views/partials/navbar');
+
+router.use(function isLoggedin(req, res, next) {
+
+console.log(req.fruit)
+console.log('~~~~~~~~~~~~~~~~~~~~~~~')
+
+    //Check to make sure that element id and innerhtml tags match the html/ejs files
+    const usernameEl = document.getElementById("username")
+    if (usernameEl.innerHTML !== 'Login') {
+        var username = usernameEl.innerHTML
+        next();
+    } else {
+        //Redirect to login page
+        res.redirect('/login');
+    }
+}
+);
+
+router.use(function getUserId(req, res, next) {
+
+})
+
+// if (req.user) {
+//     next();
+// } else {
+//     //Should redirect to login page
+//     res.redirect('/login');
+// }
+//     router.get('/authenticate/user')
+    
+// function findUser (username) {
+//     db.user.findOne( {
+//         where: {
+//             username: username
+//         }
+//     })
+// };
+//     function isAuthenticated(req, res, next) {
+//     //checks here
+
+//     //user logged in
+//     if (req.user.authenticated)
+//     return next();
+
+//     //user not logged in
+//     res.redirect('/error')
+
+
+//First middleware = session ID
+//Second middleware = auth ID
+
+// FIXME: load this via a library or move this function to a util.js module
+function uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+function linkUserToPlaylist (req, res, nextFn) {
+    // link user to playlist, then res.send('success!')
+}
+
+function createPlaylist (req, res, nextFn) {
+    // create playlist, then call linkUsertoPlaylist
+            db.playlist.create({
+                    title: input
+                })
+                .then((results) => {
+                    console.log(results)
+                    resolve(results)
+                })
+                .catch((er)=>{reject(er)})
+        })
+    };
+}
 
 router.post('/api/playlist', (req, res) => {
     console.log('Someone called the playlist route')
     let input = 'Demo playlist'
     //'Demo playlist' will become req.body.'name of playlist input tag'
     console.log(input)
-    getData.createPlaylist(input)
+    const playlistId = 'playlist-' + uuid()
+    getData.createPlaylist(input).then(function (resultFromDatabase) {
+        // result.newId
+    })
+    
     .then((newPage)=>{
         res.redirect('/test/endpoint')
+        res.redirect('/playlist?added=true')
         //newPage should be endpoint '/...' that will .get html page
     })
 })
@@ -27,3 +109,19 @@ router.get('/test/endpoint', (req, res) => {
 })
 
 module.exports = router
+
+//create playlist, then create new association in user_playlist join table with {find newly created playlist id, find userid, create new entry in join table}, then redirect to playlist page
+
+// .then(() => {
+//     db.playlist.findOne({
+//         where: {
+//             title: input
+//         }
+//     }); 
+//  })
+//  .then(() => {
+//      db.user_playlist.create({
+//          user_id: userId,
+//          playlist_id: playlistId
+//      })
+//  })
