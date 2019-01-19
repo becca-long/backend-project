@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!-- saved from url=(0158)https://pippio.com/api/sync?pid=1391&ref=https%3A%2F%2Fwww.caffeinecoding.com%2Fleveraging-express-middleware-to-authorize-your-api%2F&it=1&iv=c2cvdnn51ejnb52 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><meta name="referrer" content="no-referrer"><script>
+		var f = function () {
+	function loadChains(chains, limit, onChainDone) {
+    function newImageLoader(url) {
+        return function () {
+            var e = new Image();
+            addListeners(e);
+            e.src = url;
+        };
+    }
+
+    function newScriptLoader(url) {
+        return function () {
+            var e = document.createElement('script');
+            e.type = 'text/javascript';
+            e.async = true;
+            addListeners(e);
+            e.src = url;
+            document.head.appendChild(e);
+        };
+    }
+
+    function newIframeLoader(url) {
+        return function () {
+            var e = document.createElement('iframe');
+            e.style.display = 'none';
+            e.width = 1;
+            e.height = 1;
+            addListeners(e);
+            e.src = url;
+            document.body.appendChild(e);
+        };
+    }
+
+    function addListeners(e) {
+        addLoadErrorListeners(e, loadNext);
+        if (typeof onChainDone === 'function') {
+            addLoadErrorListeners(e, onChainDone);
+        }
+    }
+
+    function addLoadErrorListeners(e, listener) {
+        if (typeof e.addEventListener === 'function') {
+            e.addEventListener('load', listener, false);
+            e.addEventListener('error', listener, false);
+        } else if (typeof e.attachEvent === 'function') {
+            e.attachEvent('onload', listener);
+            e.attachEvent('onerror', listener);
+        }
+    }
+
+    function loadNext() {
+        var next = loaders.shift();
+        if (typeof next === "function") {
+            setTimeout(next);
+        }
+    }
+
+    var loaders = chains.reduce(function (acc, value) {
+        var mode = value[0];
+        var url = value[1];
+
+        switch (mode) {
+            case 'image':
+                acc.push(newImageLoader(url));
+                break;
+            case 'script':
+                acc.push(newScriptLoader(url));
+                break;
+            case 'iframe':
+                acc.push(newIframeLoader(url));
+                break;
+        }
+        return acc;
+    }, []);
+
+    for (var i = 0; i < limit; i++) {
+        loadNext();
+    }
+}
+
+	var chains = [];
+	chains.push(['image', 'https://e.dlx.addthis.com/e/a-1137/s-7715?ret=img&na_em=8a6c4a31511025950aca0be2e82f9db8bad31434&na_em=12c898f5903c6053474af53d683a02cc2686785e&na_em=a5bba346cbb21d8db2b6a1bbb4abf50aeac63ea5&na_ci=FmKCf2WuyoGTW5lxHOwVfmGNGQ&na_sp=11379']);
+	chains.push(['image', 'https://ei.rlcdn.com/448046.gif?n=1&partner_site_id=2166&m=6401dc33ff0845b4a3e5debaf087c4db&s=8a6c4a31511025950aca0be2e82f9db8bad31434&s256=a9202b8a6dba5ffc896944e79a429e4b82be2d5ca5d011bf3156772e75521957']);
+	chains.push(['image', 'https://aa.agkn.com/adscores/s.pixel?sid=9102280158&em=8a6c4a31511025950aca0be2e82f9db8bad31434']);
+	chains.push(['image', 'https://mid.rkdms.com/bct?pid=66326baa-c2c7-4867-94c1-ae2533db593b&_ct=img&e_sh1=a5bba346cbb21d8db2b6a1bbb4abf50aeac63ea5&e_sh2=a9202b8a6dba5ffc896944e79a429e4b82be2d5ca5d011bf3156772e75521957&e_md5=d6cd772b75d9a6bff4be81c3f08a96d9']);
+	chains.push(['image', 'https://partner.mediawallahscript.com/?account_id=1003&partner_id=1011&uid=&custom=2166&placement_id=1391&tag_format=img&tag_action=sync&sha_1_hash=8a6c4a31511025950aca0be2e82f9db8bad31434&sha_256_hash=a9202b8a6dba5ffc896944e79a429e4b82be2d5ca5d011bf3156772e75521957&md5_hash=d6cd772b75d9a6bff4be81c3f08a96d9&cb=1547854902']);
+	chains.push(['image', 'https://tr.snapchat.com/cs/r?u_hem=a9202b8a6dba5ffc896944e79a429e4b82be2d5ca5d011bf3156772e75521957']);
+	chains.push(['image', 'https://p.adsymptotic.com/d/px/?_pid=15577&_psign=0c2a910e9546544e39482a0408efbc33&_puuid=d6cd772b75d9a6bff4be81c3f08a96d9&_rand=08733575']);
+	chains.push(['image', 'https://beacon.walmart.com/etap.gif?tap=liveramp&md5=d6cd772b75d9a6bff4be81c3f08a96d9&md5=6401dc33ff0845b4a3e5debaf087c4db&md5=c75d0de672279a81d3be9917b6c9b0d8']);
+	chains.push(['image', 'https://ib.adnxs.com/getuid?https%3A%2F%2Fs.cpx.to%2Fca.png%3Fref%3Dhttps%253A%252F%252Fwww.caffeinecoding.com%252Fleveraging-express-middleware-to-authorize-your-api%252F%26pid%3D11718%26url%3Dhttps%253A%252F%252Fwww.caffeinecoding.com%252Fleveraging-express-middleware-to-authorize-your-api%252F%26adnxs_uid%3D%24UID']);
+	chains.push(['image', 'https://tag.apxlv.com/tag/partner/222?pixel_mode=pixel']);
+	chains.push(['image', 'https://p.adsymptotic.com/d/px?_pid=13553&_psign=9e62e5c043ecadc9479a0ccac401dd7d']);
+	chains.push(['image', 'https://i.liadm.com/s/h/49326']);
+	chains.push(['image', 'https://rc.rlcdn.com/456809.gif?n=10']);
+	chains.push(['image', 'https://rc.rlcdn.com/456809.gif?n=3']);
+	chains.push(['image', 'https://rc.rlcdn.com/456809.gif?n=6']);
+
+	loadChains(chains, 10, (typeof onDone === "function") ? onDone : null);
+		};
+
+		if (document.body) { f(); } else { document.addEventListener('DOMContentLoaded', f); }
+	</script>
+</head><body></body></html>

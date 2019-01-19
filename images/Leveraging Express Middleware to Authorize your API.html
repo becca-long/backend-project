@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<!-- saved from url=(0083)https://www.caffeinecoding.com/leveraging-express-middleware-to-authorize-your-api/ -->
+<html class=" fonts-loaded"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!--[if lte IE 9]>
+        <script type="text/javascript">
+            window.location = "/browser-compatibility";
+        </script>
+        <![endif]-->
+        <title>Leveraging Express Middleware to Authorize your API</title>
+        <meta name="description" content="Writing express middleware for your authorization rules will enable you to follow the DRY principle, reduce code redundancy, and secure your API&#39;s with less effort &amp; code.">
+    <link rel="shortcut icon" href="https://www.caffeinecoding.com/favicon.png" type="image/png">
+    <link rel="canonical" href="https://www.caffeinecoding.com/leveraging-express-middleware-to-authorize-your-api/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="https://www.caffeinecoding.com/leveraging-express-middleware-to-authorize-your-api/amp/">
+    
+    <meta property="og:site_name" content="Caffeine Coding">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Leveraging Express Middleware to Authorize your API">
+    <meta property="og:description" content="Writing express middleware for your authorization rules will enable you to follow the DRY principle, reduce code redundancy, and secure your API&#39;s with less effort &amp; code.">
+    <meta property="og:url" content="https://www.caffeinecoding.com/leveraging-express-middleware-to-authorize-your-api/">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1465479499730-d2c36f03ef87?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjExNzczfQ&amp;s=9761b7acfc845e0d9a67fff5342069f6">
+    <meta property="article:published_time" content="2018-06-24T23:46:03.000Z">
+    <meta property="article:modified_time" content="2018-06-25T20:04:25.000Z">
+    <meta property="article:tag" content="Code">
+    <meta property="article:tag" content="Javascript">
+    <meta property="article:tag" content="Nodejs">
+    <meta property="article:tag" content="Backend">
+    <meta property="article:tag" content="Guide">
+    <meta property="article:tag" content="Productivity">
+    
+    <meta property="article:publisher" content="https://www.facebook.com/caffeinecoding">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Leveraging Express Middleware to Authorize your API">
+    <meta name="twitter:description" content="Writing express middleware for your authorization rules will enable you to follow the DRY principle, reduce code redundancy, and secure your API&#39;s with less effort &amp; code.">
+    <meta name="twitter:url" content="https://www.caffeinecoding.com/leveraging-express-middleware-to-authorize-your-api/">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1465479499730-d2c36f03ef87?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjExNzczfQ&amp;s=9761b7acfc845e0d9a67fff5342069f6">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Kelvin Nguyen">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="Code, Javascript, Nodejs, Backend, Guide, Productivity">
+    <meta name="twitter:creator" content="@kelyvinN">
+    <meta property="og:image:width" content="1080">
+    <meta property="og:image:height" content="721">
+    
+    <script async="" src="./Leveraging Express Middleware to Authorize your API_files/ga-lite.min.js"></script><script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Caffeine Coding",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.caffeinecoding.com/content/images/2018/10/kelvin-1-min-square.jpg",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Kelvin Nguyen",
+        "image": {
+            "@type": "ImageObject",
+            "url": "//www.gravatar.com/avatar/b81c2322f7eda6d445bf31a94f594855?s=250&d=mm&r=x",
+            "width": 250,
+            "height": 250
+        },
+        "url": "https://www.caffeinecoding.com/author/kelvin/",
+        "sameAs": [
+            "https://twitter.com/kelyvinN"
+        ]
+    },
+    "headline": "Leveraging Express Middleware to Authorize your API",
+    "url": "https://www.caffeinecoding.com/leveraging-express-middleware-to-authorize-your-api/",
+    "datePublished": "2018-06-24T23:46:03.000Z",
+    "dateModified": "2018-06-25T20:04:25.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://images.unsplash.com/photo-1465479499730-d2c36f03ef87?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjExNzczfQ&s=9761b7acfc845e0d9a67fff5342069f6",
+        "width": 1080,
+        "height": 721
+    },
+    "keywords": "Code, Javascript, Nodejs, Backend, Guide, Productivity",
+    "description": "Writing express middleware for your authorization rules will enable you to follow the DRY principle, reduce code redundancy, and secure your API&#x27;s with less effort &amp; code.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.caffeinecoding.com/"
+    }
+}
+    </script>
+
+    <script src="./Leveraging Express Middleware to Authorize your API_files/ghost-sdk.min.js"></script>
+<script>
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "0dcbb04d61e9"
+});
+</script>
+    <meta name="generator" content="Ghost 1.25">
+    <link rel="alternate" type="application/rss+xml" title="Caffeine Coding" href="https://www.caffeinecoding.com/rss/">
+    <script type="text/javascript">
+    var ga_id = 'UA-54662459-3';
+    var disqus_shortname = 'kelyvin';
+    var profile_resume = 'Software Engineer, Entrepreneur, Nerd';
+    var tag_names = ['code', 'front-end', 'backend', 'productivity', 'career', 'guide', 'musings', 'data', 'javascript'];
+    var mailchimpOptions = {
+        url: "//caffeinecoding.us13.list-manage.com/subscribe/post?u=59e500b378d739af4e0b9148f&amp;id=c1ef5ffcbe", 
+        text: "Stay up to the date with the latest posts from Caffeine Coding!",
+        thumbnail: "/assets/img/icons/icon.png?v=2f223b573f"
+    };
+    
+/* 
+    var notificationOptions = {
+        type: "info",
+        message: "Do you happen to be a millennial? Do you enjoy going on a day trip or adventuring around the world? <br/><br/>If you have a spare 10 minutes, I'd love to pick your brain through this survey: <br/><br/><a href ='https://goo.gl/yHtYXM'>https://goo.gl/yHtYXM</a>? <br/><br/>Thanks for you help!",
+        isShownOnce: false,
+        escapeHtml: false
+    };
+*/
+</script>
+        
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="apple-touch-icon" sizes="57x57" href="https://www.caffeinecoding.com/assets/img/icons/apple/apple-touch-icon-57x57.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="60x60" href="https://www.caffeinecoding.com/assets/img/icons/apple/apple-touch-icon-60x60.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="72x72" href="https://www.caffeinecoding.com/assets/img/icons/apple/apple-touch-icon-72x72.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="76x76" href="https://www.caffeinecoding.com/assets/img/icons/apple/apple-touch-icon-76x76.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="114x114" href="https://www.caffeinecoding.com/assets/img/icons/apple/apple-touch-icon-114x114.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="120x120" href="https://www.caffeinecoding.com/assets/img/icons/apple/apple-touch-icon-120x120.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="144x144" href="https://www.caffeinecoding.com/assets/img/icons/apple/apple-touch-icon-144x144.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="152x152" href="https://www.caffeinecoding.com/assets/img/icons/apple/apple-touch-icon-152x152.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="180x180" href="https://www.caffeinecoding.com/assets/img/icons/apple/apple-touch-icon-180x180.png?v=gAAmLMYXpw">
+<link rel="icon" type="image/png" href="https://www.caffeinecoding.com/assets/img/icons/favicon/favicon-32x32.png?v=gAAmLMYXpw" sizes="32x32">
+<link rel="icon" type="image/png" href="https://www.caffeinecoding.com/assets/img/icons/favicon/favicon-194x194.png?v=gAAmLMYXpw" sizes="194x194">
+<link rel="icon" type="image/png" href="https://www.caffeinecoding.com/assets/img/icons/favicon/favicon-96x96.png?v=gAAmLMYXpw" sizes="96x96">
+<link rel="icon" type="image/png" href="https://www.caffeinecoding.com/assets/img/icons/android/android-chrome-192x192.png?v=gAAmLMYXpw" sizes="192x192">
+<link rel="icon" type="image/png" href="https://www.caffeinecoding.com/assets/img/icons/favicon/favicon-16x16.png?v=gAAmLMYXpw" sizes="16x16">
+<link rel="manifest" href="https://www.caffeinecoding.com/assets/img/icons/android/manifest.json?v=gAAmLMYXpw">
+<link rel="mask-icon" href="https://www.caffeinecoding.com/assets/img/icons/safari/safari-pinned-tab.svg?v=gAAmLMYXpw" color="#56817a">
+<link rel="shortcut icon" href="https://www.caffeinecoding.com/assets/img/icons/favicon/favicon.ico?v=gAAmLMYXpw">
+<meta name="msapplication-TileColor" content="#56817a">
+<meta name="msapplication-TileImage" content="/assets/img/icons/microsoft/mstile-144x144.png?v=gAAmLMYXpw">
+<meta name="msapplication-config" content="/assets/img/icons/microsoft/browserconfig.xml?v=gAAmLMYXpw">
+<meta name="theme-color" content="#56817a">
+        <link rel="stylesheet" type="text/css" href="./Leveraging Express Middleware to Authorize your API_files/caffeine-theme.css">
+        <style>
+@font-face{font-family:Raleway;font-weight:400;font-style:normal;src:local('Raleway'),local('Raleway-regular'),url(https://fonts.gstatic.com/s/raleway/v10/QAUlVt1jXOgQavlW5wEfxQLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2'),url(https://fonts.gstatic.com/s/raleway/v10/cIFypx4yrWPDz3zOxk7hIQLUuEpTyoUstqEm5AMlJo4.woff) format('woff'),url(https://fonts.gstatic.com/s/raleway/v10/bIcY3_3JNqUVRAQQRNVteQ.ttf) format('truetype'),url(https://fonts.gstatic.com/l/font?kit=IP_NSg73bUZGuyb3zF6qcQ&skey=30a27f2564731c64&v=v10#Raleway) format('svg')}@font-face{font-family:Raleway;font-weight:700;font-style:normal;src:local('Raleway Bold'),local('Raleway-700'),url(https://fonts.gstatic.com/s/raleway/v10/JbtMzqLaYbbbCL9X6EvaIwzyDMXhdD8sAj6OAJTFsBI.woff2) format('woff2'),url(https://fonts.gstatic.com/s/raleway/v10/JbtMzqLaYbbbCL9X6EvaI73hpw3pgy2gAi-Ip7WPMi0.woff) format('woff'),url(https://fonts.gstatic.com/s/raleway/v10/JbtMzqLaYbbbCL9X6EvaIy3USBnSvpkopQaUR-2r7iU.ttf) format('truetype'),url(https://fonts.gstatic.com/l/font?kit=JbtMzqLaYbbbCL9X6EvaI6WUboTb-jS2tyCOQMtm97g&skey=e507c3e2b7915ad1&v=v10#Raleway) format('svg')}@font-face{font-family:'Roboto Slab';font-weight:300;font-style:normal;src:local('Roboto Slab Light'),local('Roboto-Slab-300'),url(https://fonts.gstatic.com/s/robotoslab/v6/dazS1PrQQuCxC3iOAJFEJdTIkQYohD4BpHvJ3NvbHoA.woff2) format('woff2'),url(https://fonts.gstatic.com/s/robotoslab/v6/dazS1PrQQuCxC3iOAJFEJfR_54zmj3SbGZQh3vCOwvY.woff) format('woff'),url(https://fonts.gstatic.com/s/robotoslab/v6/dazS1PrQQuCxC3iOAJFEJbfB31yxOzP-czbf6AAKCVo.ttf) format('truetype'),url(https://fonts.gstatic.com/l/font?kit=dazS1PrQQuCxC3iOAJFEJT4dnM32POWavC8T_whbZeI&skey=5b48fccf0dc70db6&v=v6#RobotoSlab) format('svg')}@font-face{font-family:'Roboto Slab';font-weight:400;font-style:normal;src:local('Roboto Slab Regular'),local('Roboto-Slab-regular'),url(https://fonts.gstatic.com/s/robotoslab/v6/y7lebkjgREBJK96VQi37Zogp9Q8gbYrhqGlRav_IXfk.woff2) format('woff2'),url(https://fonts.gstatic.com/s/robotoslab/v6/y7lebkjgREBJK96VQi37ZrrIa-7acMAeDBVuclsi6Gc.woff) format('woff'),url(https://fonts.gstatic.com/s/robotoslab/v6/y7lebkjgREBJK96VQi37Zp0EAVxt0G0biEntp43Qt6E.ttf) format('truetype'),url(https://fonts.gstatic.com/l/font?kit=y7lebkjgREBJK96VQi37ZnNsigHlcrQGNV8nkUSFQfc&skey=a9ad6a4717e923f0&v=v6#RobotoSlab) format('svg')}
+</style>        <script type="text/javascript">
+try{var storage=window.sessionStorage;storage&&"1"==storage.getItem("fonts-loaded")&&(window.document.documentElement.className+=" fonts-loaded")}catch(e){}
+</script>    <script type="text/javascript" async="" src="./Leveraging Express Middleware to Authorize your API_files/embed.js"></script><script async="" type="text/javascript" src="./Leveraging Express Middleware to Authorize your API_files/count.js"></script><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style><link rel="preload" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.d49f53e192b9080ef8880a7c9b24f1c3.css"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.81998d48c30a90f1e372f73e226bece4.js"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.eb7b5137116db258599fe20d5d9253f6.js"><link rel="preload" as="script" href="https://disqus.com/next/config.js"></head>
+    <body class="post-template tag-code tag-javascript tag-nodejs tag-backend tag-guide tag-productivity" data-page="post" data-device="desktop">
+        <header id="default-nav-header" class="nav-header nav-header-fixed animated">
+    <a id="home-button" href="https://www.caffeinecoding.com/">
+        <img src="./Leveraging Express Middleware to Authorize your API_files/icon.png" alt="Caffeine Coding icon" class="icon rounded hvr-buzz-out">
+      </a>
+    <a class="tags-button right">
+        <i class="fa fa-search hvr-grow"></i>
+    </a>
+</header>        <aside class="cover animated" style="background-image: url(/content/images/2018/05/code-coffee-iphone.jpg)">
+    <div class="background-container">
+        <div class="profile">
+            <header id="aside-header" class="nav-header mobile">
+                <a id="aside-close-button" class="open-link right">
+                    <i class="fa fa-close"></i>
+                </a>
+            </header>
+            <div class="profile-logo">
+                <a id="avatar-link" class="open-link" title="Link to homepage for Caffeine Coding" href="https://www.caffeinecoding.com/#open">
+                    <img src="./Leveraging Express Middleware to Authorize your API_files/kelvin-1-min-square.jpg" alt="Caffeine Coding avatar" class="avatar rounded hvr-buzz-out">
+                </a>
+            </div>
+            <div class="profile-header">
+                <a class="open-link" title="Link to homepage for Caffeine Coding" href="https://www.caffeinecoding.com/#open">
+                    <h1 class="profile-title">Caffeine Coding</h1>
+                </a>
+            </div>
+            <div class="profile-body">
+                <a class="open-link" title="Link to homepage for Caffeine Coding" href="https://www.caffeinecoding.com/#open">
+                    <h3 id="profile-resume">Software Engineer, Entrepreneur, Nerd</h3>
+                </a>
+                <hr class="divider long">
+                <p>Engineering thoughts, stories and ideas. I am a Software Engineer in the Silicon Valley and I hope to share my notes, journey, and lessons with my fellow millennials </p>
+                <hr class="divider short">
+                    <div class="call-to-action-container">
+                        <nav class="navigation">
+    <ul class="links">
+        <li class="nav-blog ">
+            <a class="home-link" href="https://www.caffeinecoding.com/#open" title="Caffeine Coding blog">Home</a>
+        </li>
+        <li class="nav-about ">
+            <a href="https://www.caffeinecoding.com/about">About</a>
+        </li>
+        <li class="subscribe-button nav-blog">
+            <a class="subscribe-link" href="https://www.caffeinecoding.com/#open" title="subscribe">Subscribe</a>
+        </li>
+    </ul>
+</nav>
+
+                    </div>
+            </div>
+            <ul class="social expanded">
+
+    <!-- Facebook -->
+    <li class="social item hvr-grow-rotate">
+        <a rel="me" target="_blank" href="https://www.facebook.com/caffeinecoding" title="Caffeine Coding on Facebook">
+            <i class="fa fa-facebook-official"></i>
+            <span class="label">Facebook</span>
+        </a>
+    </li>
+
+    <!-- Twitter -->
+    <li class="social item hvr-grow-rotate">
+        <a rel="me" target="_blank" href="http://twitter.com/kelyvinN" title="@KelyvinN on Twitter">
+            <i class="fa fa-twitter"></i>
+            <span class="label">Twitter</span>
+        </a>
+    </li>
+
+    <!-- Linkedin -->
+    <li class="social item hvr-grow-rotate">
+        <a rel="me" target="_blank" href="http://linkedin.com/in/kelyvin" title="Kelyvin on LinkedIn">
+            <i class="fa fa-linkedin-square"></i>
+            <span class="label">Linkedin</span>
+        </a>
+    </li>
+
+    <!-- Github -->
+    <li class="social item hvr-grow-rotate">
+        <a rel="me" target="_blank" href="https://github.com/kelyvin" title="Kelyvin on Github">
+            <i class="fa fa-github"></i>
+            <span class="label">Github</span>
+        </a>
+    </li>
+
+    <!-- RSS -->
+    <li class="social item hvr-grow-rotate">
+        <a href="https://www.caffeinecoding.com/rss/" title="Subscribe to RSS">
+            <i class="fa fa-rss"></i>
+            <span class="label">RSS</span>
+        </a>
+    </li>
+</ul>
+        </div>
+    </div>
+</aside>
+
+<div class="blog-header">
+    <a title="Link to homepage for Caffeine Coding" href="https://www.caffeinecoding.com/#open">
+        <h1 class="profile-title hvr-float">Caffeine Coding</h1>
+    </a>
+    <nav class="navigation">
+    <ul class="links">
+        <li class="nav-blog ">
+            <a class="home-link" href="https://www.caffeinecoding.com/#open" title="Caffeine Coding blog">Home</a>
+        </li>
+        <li class="nav-about ">
+            <a href="https://www.caffeinecoding.com/about">About</a>
+        </li>
+        <li class="subscribe-button nav-blog">
+            <a class="subscribe-link" href="https://www.caffeinecoding.com/#open" title="subscribe">Subscribe</a>
+        </li>
+    </ul>
+</nav>
+
+</div>
+        <main class="animated">
+            <section class="content">
+                
+
+  <article class="post tag-code tag-javascript tag-nodejs tag-backend tag-guide tag-productivity">
+    <div class="material-cover animated fade-in" style="background-image: url(https://images.unsplash.com/photo-1465479499730-d2c36f03ef87?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjExNzczfQ&amp;s=9761b7acfc845e0d9a67fff5342069f6)">
+    <div class="background-container"></div>
+</div>
+    <div class="post-card animated fade-in">
+        <a id="back-button" href="https://www.caffeinecoding.com/leveraging-express-middleware-to-authorize-your-api/#open" title="Go back" class="hvr-grow">
+            <div class="back-button">
+                <i class="fa fa-arrow-left"></i>
+            </div>
+        </a>
+        <div class="post-container">
+            <div class="post-header">
+                <div class="meta">
+                    <time datetime="June 24, 2018">7 months ago</time>
+                    <span class="tags">in <a href="https://www.caffeinecoding.com/tag/code/">Code</a> <a href="https://www.caffeinecoding.com/tag/javascript/">Javascript</a> <a href="https://www.caffeinecoding.com/tag/nodejs/">Nodejs</a> <a href="https://www.caffeinecoding.com/tag/backend/">Backend</a> <a href="https://www.caffeinecoding.com/tag/guide/">Guide</a> <a href="https://www.caffeinecoding.com/tag/productivity/">Productivity</a></span>
+                    <span class="reading-time"> ~ <span>10 min</span> read.</span>
+                </div>
+                <h1 id="post-title">
+                    Leveraging Express Middleware to Authorize your API
+                </h1>
+                <div class="share">
+                    <ul class="share-buttons">
+    <li class="hvr-grow-rotate">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.caffeinecoding.com%2Fleveraging-express-middleware-to-authorize-your-api%2F&amp;t=Leveraging%20Express%20Middleware%20to%20Authorize%20your%20API" target="_blank" title="Share on Facebook">
+            <i class="fa fa-facebook-square"></i>
+        </a>
+    </li>
+    <li class="hvr-grow-rotate">
+        <a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fwww.caffeinecoding.com%2Fleveraging-express-middleware-to-authorize-your-api%2F&amp;text=Leveraging%20Express%20Middleware%20to%20Authorize%20your%20API:https%3A%2F%2Fwww.caffeinecoding.com/leveraging-express-middleware-to-authorize-your-api/" target="_blank" title="Tweet">
+            <i class="fa fa-twitter-square"></i>
+        </a>
+    </li>
+    <li class="hvr-grow-rotate">
+        <a href="https://plus.google.com/share?url=https%3A%2F%2Fwww.caffeinecoding.com%2Fleveraging-express-middleware-to-authorize-your-api%2F" target="_blank" title="Share on Google+">
+            <i class="fa fa-google-plus-square"></i>
+        </a>
+    </li>
+    <li class="hvr-grow-rotate">
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.caffeinecoding.com%2Fleveraging-express-middleware-to-authorize-your-api%2F&amp;title=Leveraging%20Express%20Middleware%20to%20Authorize%20your%20API" target="_blank" title="Submit to Reddit">
+            <i class="fa fa-reddit-square"></i>
+        </a>
+    </li>
+    <li class="hvr-grow-rotate">
+        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.caffeinecoding.com%2Fleveraging-express-middleware-to-authorize-your-api%2F&amp;title=Leveraging%20Express%20Middleware%20to%20Authorize%20your%20API&amp;source=https%3A%2F%2Fwww.caffeinecoding.com%2Fleveraging-express-middleware-to-authorize-your-api%2F" target="_blank" title="Share on LinkedIn">
+            <i class="fa fa-linkedin-square"></i>
+        </a>
+    </li>
+</ul>                </div>
+            </div>
+             <div class="post-content">
+                <div class="kg-card-markdown"><p>Recently I've had to build a bunch of REST API's and I've been writing them mostly with Node.js and express. I ran into a scenario where I was building an internal admin panel and I wanted to ensure there was a proper authentication &amp; authorization scheme to both</p>
+<ol>
+<li>Authenticate users who were allowed to access the panel</li>
+<li>Provide permissions and authorize certain API's only for select roles/users</li>
+</ol>
+<p>Solving for (1) is fairly easy nowadays because with the power of libraries such as <a href="http://www.passportjs.org/docs/">Passport</a> or delegating authentication to a Backend-as-a-Service platforms like <a href="https://firebase.google.com/products/auth/">Firebase</a>, getting that working is a quick task and a non-issue. However, the harder work comes with <strong>authorization</strong>. How do I ensure that only properly authenticated/authorized users could access the API's that I was writing? That is the focus for this post.</p>
+<h2 id="implementinganauthorizationrule">Implementing an authorization rule</h2>
+<p>Creating an authorization rule is actually not that difficult. Let's say you will only allow a user to modify his/her own data if he/she is the owner of that data. Assuming you follow standard security practices and provide an <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization">Authorization HTTP header</a> for one of the following <a href="http://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml">Authentication types</a>, it's as simple as re-authenticating and validating that the user is who he says he is, checking whether the user has access to his own account, and then allowing him to update it.</p>
+<p>As a simple example, I'm going to describe a use case where you are making a <code>POST</code> request to a url endpoint ending in <code>/:userId/verify</code>, where <code>userId</code> is the id of the user you want to make the update. Let's also say the user has already been authenticated on the browser and sends an Authorization header with the request: a <strong><a href="https://jwt.io/introduction/">JWT</a> token using the Bearer token schema</strong>.</p>
+<p>So your header might look like:</p>
+<pre><code>Authorization: Bearer &lt;JWT token&gt;
+</code></pre>
+<p>And your express code to handle this request might look like:</p>
+<pre class=" language-javascript"><code class=" language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> userUpdate <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../services/users'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> getBearerToken<span class="token punctuation">,</span> verifyTokenAndGetUID <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../utils/authentication'</span>
+
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/:userId/verify'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> authHeader <span class="token operator">=</span> req<span class="token punctuation">.</span>headers<span class="token punctuation">.</span>authorization
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> userId <span class="token punctuation">}</span> <span class="token operator">=</span> req<span class="token punctuation">.</span>params
+  <span class="token keyword">const</span> data <span class="token operator">=</span> req<span class="token punctuation">.</span>body
+    
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>authHeader<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">403</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      status<span class="token punctuation">:</span> <span class="token number">403</span><span class="token punctuation">,</span>
+      message<span class="token punctuation">:</span> <span class="token string">'FORBIDDEN'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> token <span class="token operator">=</span> <span class="token function">getBearerToken</span><span class="token punctuation">(</span>authHeader<span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>token<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// This promise returns the userId of this token</span>
+      <span class="token comment" spellcheck="true">// We will validate whether the current authenticated user has access to update the current userId. </span>
+      <span class="token keyword">return</span> <span class="token function">verifyTokenAndGetUID</span><span class="token punctuation">(</span>token<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>req<span class="token punctuation">.</span>auth <span class="token operator">&amp;&amp;</span> req<span class="token punctuation">.</span>auth<span class="token punctuation">.</span>userId <span class="token operator">&amp;&amp;</span> userId <span class="token operator">===</span> req<span class="token punctuation">.</span>auth<span class="token punctuation">.</span>userId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">userUpdate</span><span class="token punctuation">(</span>userId<span class="token punctuation">,</span> data<span class="token punctuation">)</span>
+          <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">401</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+              status<span class="token punctuation">:</span> <span class="token number">401</span><span class="token punctuation">,</span>
+              message<span class="token punctuation">:</span> <span class="token string">'UNAUTHORIZED'</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+          logger<span class="token punctuation">.</span><span class="token function">logError</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+
+          <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">401</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            status<span class="token punctuation">:</span> <span class="token number">401</span><span class="token punctuation">,</span>
+            message<span class="token punctuation">:</span> <span class="token string">'UNAUTHORIZED'</span>
+          <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">403</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        status<span class="token punctuation">:</span> <span class="token number">403</span><span class="token punctuation">,</span>
+        message<span class="token punctuation">:</span> <span class="token string">'FORBIDDEN'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>In layman's terms, this code block is doing the following:</p>
+<ol>
+<li>If an authorization token is not provided, return a <code>403</code></li>
+<li>If a token is provided, make sure it's of the right Authorization scheme</li>
+<li>If not, return a <code>401</code>. Otherwise, verify the token and retrieve the user id for this token.</li>
+<li>If it is not a valid/verifiable token, return <code>401</code>. Otherwise check if the returned user id it is allowed to make the update against the provided user id in the HTTP request</li>
+<li>If not, return <code>401</code>. Otherwise, continue with the request.</li>
+</ol>
+<p>This works great for what we need this API to do. Only one problem - you don't want to have to write this over and over again for each REST API endpoint you create. There's a principle in software development called DRY (don't repeat yourself), so let's make it so that we don't have to redundantly write this same authorization rule everywhere.</p>
+<h2 id="expressmiddlewaretotherescue">Express middleware to the rescue</h2>
+<p>If you've done any sort of development in express, you may be aware of a lil something called <a href="https://expressjs.com/en/guide/using-middleware.html">Express Middleware</a>. The TL;DR is that express middleware performs the following tasks:</p>
+<ul>
+<li>Execute any code.</li>
+<li>Make changes to the request and the response objects.</li>
+<li>End the request-response cycle.</li>
+<li>Call the next middleware function in the stack.</li>
+</ul>
+<p>For any API endpoint that we write, we can bind an application-level middleware and have it run the authorization rule before deciding whether or not to proceed. Using the example from before, this is how we can rewrite it:</p>
+<pre class=" language-javascript"><code class=" language-javascript"><span class="token comment" spellcheck="true">// Router </span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> userUpdate <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../services/users'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> isUserAuthenticated <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token string">'../authMiddleware'</span>
+
+router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/:userId/verify'</span><span class="token punctuation">,</span> isUserAuthenticated<span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> userId <span class="token punctuation">}</span> <span class="token operator">=</span> req<span class="token punctuation">.</span>params
+  <span class="token keyword">const</span> data <span class="token operator">=</span> req<span class="token punctuation">.</span>body
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span>locals<span class="token punctuation">.</span>auth <span class="token operator">&amp;&amp;</span> res<span class="token punctuation">.</span>locals<span class="token punctuation">.</span>auth<span class="token punctuation">.</span>userId <span class="token operator">&amp;&amp;</span> userId <span class="token operator">===</span> res<span class="token punctuation">.</span>locals<span class="token punctuation">.</span>auth<span class="token punctuation">.</span>userId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">userUpdate</span><span class="token punctuation">(</span>userId<span class="token punctuation">,</span> data<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">401</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      status<span class="token punctuation">:</span> <span class="token number">401</span><span class="token punctuation">,</span>
+      message<span class="token punctuation">:</span> <span class="token string">'UNAUTHORIZED'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<pre class=" language-javascript"><code class=" language-javascript"><span class="token comment" spellcheck="true">// Authorization Rules Middleware</span>
+<span class="token comment" spellcheck="true">// authMiddleware.js</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> isUserAuthenticated <span class="token operator">=</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> authHeader <span class="token operator">=</span> req<span class="token punctuation">.</span>headers<span class="token punctuation">.</span>authorization
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>authHeader<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">403</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      status<span class="token punctuation">:</span> <span class="token number">403</span><span class="token punctuation">,</span>
+      message<span class="token punctuation">:</span> <span class="token string">'FORBIDDEN'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> token <span class="token operator">=</span> <span class="token function">getBearerToken</span><span class="token punctuation">(</span>authHeader<span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>token<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">verifyTokenAndGetUID</span><span class="token punctuation">(</span>token<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// ------------------------------------</span>
+        <span class="token comment" spellcheck="true">// HI I'M THE UPDATED CODE BLOCK, LOOK AT ME</span>
+        <span class="token comment" spellcheck="true">// ------------------------------------</span>
+          res<span class="token punctuation">.</span>locals<span class="token punctuation">.</span>auth <span class="token operator">=</span> <span class="token punctuation">{</span>
+            userId
+          <span class="token punctuation">}</span>
+          <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+          logger<span class="token punctuation">.</span><span class="token function">logError</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+
+          <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">401</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            status<span class="token punctuation">:</span> <span class="token number">401</span><span class="token punctuation">,</span>
+            message<span class="token punctuation">:</span> <span class="token string">'UNAUTHORIZED'</span>
+          <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">403</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        status<span class="token punctuation">:</span> <span class="token number">403</span><span class="token punctuation">,</span>
+        message<span class="token punctuation">:</span> <span class="token string">'FORBIDDEN'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Notice that we put the middleware into its own module so that it can be reused in any other express endpoint as necessary. You'll also see that in our Express route initialization, that we add this middleware as part of the <code>app.METHOD</code> initilization, where it will execute the authorization rule before continuing. In our updated code block within the authorization rule, you'll see that we call <code>next()</code> to pass control to the next middleware function. Otherwise, the request will be left hanging.</p>
+<p>One last thing to notice is that once the middleware authorization rule is done, we need to pass the data back onto the next middleware function (i.e to do the user id validation). So you'll see that we are passing the returned <code>userId</code> through <code>res.locals</code>, which stores any object scoped throughout the lifetime of this request. This is recommended through even the official <a href="http://expressjs.com/en/api.html#res.locals">express docs</a>.</p>
+<p>And that's it!</p>
+<h2 id="moreandmoremiddleware">More and more middleware</h2>
+<p>Writing this middleware will enable us to write an authorization rule once, and then for every request to <code>app.METHOD</code> that needs this rule, we can run simply add the middleware to the request. The best part is that we can add as many as we want to the request by simply wrapping it in an array!</p>
+<p>Here is an example of a series of REST API's that I have implemented that leverage similar authorization middleware:</p>
+<pre class=" language-javascript"><code class=" language-javascript"><span class="token comment" spellcheck="true">/**
+ * Gets all newsletters created
+ */</span>
+router<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>isUserAuthenticated<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+  res<span class="token punctuation">.</span><span class="token function">api</span><span class="token punctuation">(</span><span class="token function">getNewsletterHistory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">/**
+ * Schedules a newsletter to be sent
+ */</span>
+router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>isUserAuthenticated<span class="token punctuation">,</span> isAdminUser<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> data <span class="token operator">=</span> req<span class="token punctuation">.</span>body
+
+  res<span class="token punctuation">.</span><span class="token function">api</span><span class="token punctuation">(</span><span class="token function">scheduleAndSendWeeklyNewsletter</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">/**
+ * Schedules a test newsletter to be sent to the specified email
+ */</span>
+router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/test'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>isUserAuthenticated<span class="token punctuation">,</span> isAdminUser<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> data <span class="token operator">=</span> req<span class="token punctuation">.</span>body
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> email<span class="token punctuation">,</span> content <span class="token punctuation">}</span> <span class="token operator">=</span> data
+
+  res<span class="token punctuation">.</span><span class="token function">api</span><span class="token punctuation">(</span><span class="token function">sendTestNewsletter</span><span class="token punctuation">(</span>email<span class="token punctuation">,</span> content<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">/**
+ * Gets all scheduled newsletters
+ */</span>
+router<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/scheduled'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>isUserAuthenticated<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+  res<span class="token punctuation">.</span><span class="token function">api</span><span class="token punctuation">(</span><span class="token function">getScheduledNewsletters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">/**
+ * Deletes a scheduled newsletter
+ */</span>
+router<span class="token punctuation">.</span><span class="token keyword">delete</span><span class="token punctuation">(</span><span class="token string">'/scheduled'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>isUserAuthenticated<span class="token punctuation">,</span> isAdminUser<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> data <span class="token operator">=</span> req<span class="token punctuation">.</span>query
+
+  res<span class="token punctuation">.</span><span class="token function">api</span><span class="token punctuation">(</span><span class="token function">deleteScheduledNewsletter</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> router
+</code></pre>
+<p>You'll see that some of the API's have different rules. "READS" only requires the user to be authenticated, but making any "WRITES" requiers to the user to be an admin user. (If you look closely, you'll also notice that I wrote a custom middleware to standardize all API responses as well, but more on that in a future post).</p>
+<h2 id="gotanyothersuggestions">Got any other suggestions?</h2>
+<p>In a year of security breaches and GDPR, data privacy has become super important. So if you're an Express pro, have other ideas, or if my solution  is trash and you got a better one, please share it!</p>
+</div>
+            </div>
+                <div class="author-credit">
+        <figure class="author-image">
+            <a class="img" href="https://www.caffeinecoding.com/author/kelvin/">
+                    <img src="./Leveraging Express Middleware to Authorize your API_files/b81c2322f7eda6d445bf31a94f594855.jpeg" alt="Kelvin Nguyen&#39;s picture" class="avatar rounded">
+            </a>
+        </figure>
+
+        <div class="author-info">
+            <h4><a href="https://www.caffeinecoding.com/author/kelvin/" class="author-name">Kelvin Nguyen</a></h4>
+                <p>Read <a href="https://www.caffeinecoding.com/author/kelvin/">more posts</a> by this author.</p>
+            <div class="author-meta">
+                <a href="https://twitter.com/kelyvinN">@kelyvinN</a>
+            </div>
+        </div>
+    </div>
+            <footer class="comments">
+    <div id="disqus_thread"><iframe id="dsq-app2308" name="dsq-app2308" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./Leveraging Express Middleware to Authorize your API_files/saved_resource.html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 1568px !important;" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+    <script type="text/javascript">
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + window.disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+</footer>
+        </div>
+    </div>
+    <div class="post-related pagination">
+        <a rel="prev" id="prev-btn" class="btn hvr-grow" href="https://www.caffeinecoding.com/create-self-signed-certificate-https/">
+            <i class="fa fa-arrow-left"></i>
+            <span>Creating a "trusted" self-signed certificate to serve HTTPS locally</span>
+        </a>
+
+        <a rel="next" id="next-btn" class="btn hvr-grow" href="https://www.caffeinecoding.com/aws-ecs-logging-with-papertrail/">
+            <span>AWS ECS logging with Papertrail</span>
+            <i class="fa fa-arrow-right"></i>
+        </a>
+    <div class="clear"></div>
+</div>  </article>
+
+
+                <footer>
+    <span class="copyright">
+        © 2019 Caffeine Coding. All Rights Reserved. | Published with <a href="https://ghost.org/" target="_blank">Ghost</a> and <a href="https://github.com/kelyvin/caffeine-theme" target="_blank">Caffeine Theme</a>.
+    </span>
+</footer>
+            </section>
+        </main>
+        <aside class="tags-overlay animated">
+    <div class="tags-overlay container">
+        <section id="search-container" class="search-container">
+    <form id="search-form" class="search-form">
+        <input id="search-field" class="search-field" type="text" ,="" name="search" placeholder="git, code, javascript,...">
+    </form>
+    <hr class="divider short">
+</section>
+<section id="search-results" class="search-results"></section>        
+<div id="popular-tags" class="tags-container">
+    <h2>Popular Tags</h2>
+    <div class="tags">
+    <a href="https://www.caffeinecoding.com/tag/code/#open">code</a><a href="https://www.caffeinecoding.com/tag/front-end/#open">front-end</a><a href="https://www.caffeinecoding.com/tag/backend/#open">backend</a><a href="https://www.caffeinecoding.com/tag/productivity/#open">productivity</a><a href="https://www.caffeinecoding.com/tag/career/#open">career</a><a href="https://www.caffeinecoding.com/tag/guide/#open">guide</a><a href="https://www.caffeinecoding.com/tag/musings/#open">musings</a><a href="https://www.caffeinecoding.com/tag/data/#open">data</a><a href="https://www.caffeinecoding.com/tag/javascript/#open">javascript</a></div>
+</div>    </div>
+</aside>
+        <!-- You can safely delete this line if your theme does not require jQuery -->
+<script src="./Leveraging Express Middleware to Authorize your API_files/jquery.min.js"></script>
+
+<script src="./Leveraging Express Middleware to Authorize your API_files/imagesloaded.pkgd.min.js"></script>
+<script src="./Leveraging Express Middleware to Authorize your API_files/masonry.pkgd.min.js"></script>
+<script src="./Leveraging Express Middleware to Authorize your API_files/scrollreveal.min.js" async=""></script>
+        <script src="./Leveraging Express Middleware to Authorize your API_files/caffeine-theme.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+    if (window.ga_id) {
+        (function(e,t,n,i,s,a,c){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)}
+        ;a=t.createElement(i);c=t.getElementsByTagName(i)[0];a.async=true;a.src=s
+        ;c.parentNode.insertBefore(a,c)
+        })(window,document,"galite","script","https://cdn.jsdelivr.net/npm/ga-lite@2/dist/ga-lite.min.js");
+
+        galite('create', window.ga_id, 'auto');
+        galite('send', 'pageview');
+    }
+</script>        <script type="text/javascript">
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + window.disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>    
+
+<iframe style="display: none;" src="./Leveraging Express Middleware to Authorize your API_files/saved_resource(1).html"></iframe></body></html>

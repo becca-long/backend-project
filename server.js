@@ -46,7 +46,7 @@ app.use(passport.session())
 app.use(express.static(__dirname + '/public'))
 
 // setting all require files
-app.use(require(('./passport/oauth-passport.js')))
+app.use(require('./passport/oauth-passport.js'))
 app.use(require('./user-register/userRegister'))
 app.use(require('./passport/local-passport'))
 app.use(require('./routes/userSearch'))
