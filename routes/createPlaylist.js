@@ -8,12 +8,8 @@ router.use(bodyParser.urlencoded({
 }));
 
 const getData = require('../sequlize/playlist');
-const userName = require('../views/partials/navbar');
 
 router.use(function isLoggedin(req, res, next) {
-
-console.log(req.fruit)
-console.log('~~~~~~~~~~~~~~~~~~~~~~~')
 
     //Check to make sure that element id and innerhtml tags match the html/ejs files
     const usernameEl = document.getElementById("username")
@@ -68,23 +64,35 @@ function uuid() {
     });
   }
 
-function linkUserToPlaylist (req, res, nextFn) {
-    // link user to playlist, then res.send('success!')
+function isLoggedIn (req, res, nextFn) {
+    req.session.
 }
 
 function createPlaylist (req, res, nextFn) {
     // create playlist, then call linkUsertoPlaylist
-            db.playlist.create({
-                    title: input
-                })
-                .then((results) => {
-                    console.log(results)
-                    resolve(results)
-                })
-                .catch((er)=>{reject(er)})
+        db.playlist.create({
+                title: req.body
         })
-    };
+        .then(function (result) {
+            console.log(result)
+        })
+        nextFn();
 }
+
+function returnPlaylistId (req, res, nextFn) {
+    
+    return req.id
+}
+
+function linkUserToPlaylist (req, res, nextFn) {
+    // link user to playlist, then res.send('success!')
+    db.user_playlist.create({
+        user_id: req.session.user.id,
+        playlist_id: 
+    })
+}
+
+//redirect to playlist page
 
 router.post('/api/playlist', (req, res) => {
     console.log('Someone called the playlist route')
