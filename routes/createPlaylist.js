@@ -12,14 +12,16 @@ router.post('/api/playlist', createPlaylistRoute)
 
 function createPlaylistRoute (req, res, next) {
     //To Do: Update 'req.body' to match form input on front end
-    createPlaylist(req.session.user.id, req.body)
+    createPlaylist(1, req.body)
 
     .catch((error) => {
         return 'Unable to create playlist'
     })
 
     .then((result) => {
+        console.log(result)
         console.log('success')
+        //TO DO: redirect to appropriate page (userplaylist? dashboard?)
         // res.redirect('/userPlaylist?added=true')
     })
 }
