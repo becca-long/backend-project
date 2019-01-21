@@ -52,6 +52,8 @@ app.use(require('./passport/local-passport'))
 app.use(require('./routes/userSearch'))
 app.use(require('./routes/userPlaylist'))
 app.use(require('./routes/createPlaylist'))
+app.use(require('./routes/addSong'))
+app.use(require('./routes/renderQueries'))
 
 app.use(require('./routes/dashboard'))
 
