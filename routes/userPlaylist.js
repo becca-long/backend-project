@@ -7,7 +7,7 @@ const db = require('../models/')
 // })
 
 router.get('/userPlaylist', (req, res) => {
-  res.render('index', {
+  res.render('userPlaylist', {
     pageTitle: 'playlist',
     pageID: 'playlist',
     data: 'hello'
