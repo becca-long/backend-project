@@ -1,39 +1,43 @@
-
-const searchFunctions = {
-  getSong: getSong,
-  getAlbum: getAlbum
-}
-module.exports = searchFunctions
-
+const express = require('express')
+const router = express.Router()
 const db = require('../models')
 
-function getSong (term) {
-  return new Promise((resolve, reject) => {
-    console.log(term)
-    db.song.findAll({
-      where: {
-        title: term
-      }
+const bodyParser = require('body-parser')
+router.use(bodyParser.json())
+router.use(bodyParser.urlencoded({
+  extended: false
+}))
+
+router.post('/api/playlist', createPlaylistRoute)
+
+function createPlaylistRoute (req, res, next) {
+    console.log(req.body.title)
+    var playlistTitle = req.body.title
+    const userId = req.session.user.id
+    createPlaylist(userId, playlistTitle)
+    //To Do: Add in catch function with error handling
+    .catch()
+    .then((result) => {
+        console.log('success')
+        console.log(result)
+        res.redirect('/userPlaylist?added=true')
+        res.end()
     })
-      .then((res) => {
-        console.log(res)
-        (resolve(res))
-      })
-      .catch((er) => { reject(er) })
-  })
 }
 
-function getAlbum (term) {
-  return new Promise((resolve, reject) => {
-    db.albums.findAll({
-
-      where: {
-        title: term
-      }
-    })
-      .then((elm) => {
-        resolve(elm)
-      })
-      .catch((er) => { reject(er) })
+function createPlaylist (userid, title) {
+  // create playlist, then call linkUsertoPlaylist
+  return db.playlist.create({
+    title: title
   })
+    .then(function linkUserToPlaylist (result) {
+      var playlistId = result.dataValues.id
+      var userId = userid
+      return db.user_playlist.create({
+        user_id: userId,
+        playlist_id: playlistId
+      })
+    })
 }
+
+module.exports = router

@@ -124,6 +124,7 @@ router.get('/auth/github/callback',
         failureRedirect: '/error'
     }),
     function (req, res) {
+        db.user
         let sessData = req.session
         sessData.user = req.user.username
         res.redirect('/dashboard')
