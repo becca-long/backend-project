@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     artist: DataTypes.STRING,
     album_name: DataTypes.STRING
   }, {});
-  album_song.associate = function(models) {
+  song_data.associate = function(models) {
     // associations can be defined here
   };
   return song_data;
