@@ -9,27 +9,42 @@
     <title>Document</title>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-3">
-          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
-            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
-            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
-            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="tab-content" id="v-pills-tabContent">
-            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">...</div>
-            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
-            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
-            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
-          </div>
-        </div>
-    </div>
-</div>
-
+        <div class="container-fluid">
+                <div class="row">
+                    <div class="container col-2">
+                        <div class="container" id="dashboard-left-panel">
+                        <!--Main controls left panel-->
+                         <div class="btn-group-vertical">
+                             <button type="button" class="btn btn-outline-secondary">Home</button>
+                             <button type="button" class="btn btn-outline-secondary">Browse</button>
+                             <button type="button" class="btn btn-outline-secondary">Radio</button>
+                         </div>
+                         <br>
+                         <br>
+                         <!--Library buttons-->
+                         <h5>Your Library</h5>
+                         <div class="btn-group-vertical">
+                            <button type="button" class="btn btn-outline-secondary">Made for You</button>
+                            <button type="button" class="btn btn-outline-secondary">Recently Played</button>
+                            <button type="button" class="btn btn-outline-secondary">Songs</button>
+                            <button type="button" class="btn btn-outline-secondary">Albums</button>
+                            <button type="button" class="btn btn-outline-secondary">Artists</button>
+                            <button type="button" class="btn btn-outline-secondary">Stations</button>
+                         </div>
+        
+                         <br>
+                         <br>
+        
+                         <h5>Playlists</h5>
+                         <div class="btn-group-vertical">
+                             <!--Buuld Loop function to populate playlist names here-->
+                            <button type="button" class="btn btn-outline-secondary">Playlist 1</button>
+                         </div>
+        
+                        </div>
+                    </div>
+                </div>
+              </div>
 
       <!--scripts used by bootstrap-->
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

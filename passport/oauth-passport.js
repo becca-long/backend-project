@@ -3,8 +3,13 @@ const router = express.Router()
 
 module.exports = router
 
-
+const bodyParser = require('body-parser')
+router.use(bodyParser.json())
+router.use(bodyParser.urlencoded({
+    extended: false
+}))
 // ALL SUCCESS PATHS SHOULD REDIRECT TO THE SAME THING
+const db = require('../models')
 
 
 
@@ -42,6 +47,22 @@ passport.use(new FacebookStrategy({
     },
     function (accessToken, refreshToken, profile, cb) {
         console.log(profile)
+        db.user.findOrCreate({
+                where: {
+                    username: profile.displayName
+                },
+                defaults: {
+                    firstname: profile.displayName
+                }
+            })
+            .spread((user, created) => {
+                console.log(user.get({
+                    plain: true
+                }))
+                console.log(created)
+            })
+
+
         return cb(null, profile)
     }
 ))
@@ -55,7 +76,9 @@ router.get('/facebook/callback',
     }),
     // TODO UPDATE WHERE IT REDIRECTS TO
     function (req, res) {
-        res.redirect('/success')
+        let sessData = req.session
+        sessData.user = req.user.username
+        res.redirect('/dashboard')
     })
 
 
@@ -73,7 +96,22 @@ passport.use(new GitHubStrategy({
         callbackURL: "/auth/github/callback"
     },
     function (accessToken, refreshToken, profile, cb) {
-        console.log(profile)
+        db.user.findOrCreate({
+                where: {
+                    username: profile.username
+                },
+                defaults: {
+                    firstname: profile.username
+                }
+            })
+            .spread((user, created) => {
+                console.log(user.get({
+                    plain: true
+                }))
+                console.log(created)
+            })
+
+
         return cb(null, profile)
     }
 ))
@@ -85,13 +123,13 @@ router.get('/auth/github/callback',
     passport.authenticate('github', {
         failureRedirect: '/error'
     }),
-    // TODO UPDATE WHERE IT REDIRECTS TO
     function (req, res) {
-        res.redirect('/success')
+        let sessData = req.session
+        sessData.user = req.user.username
+        res.redirect('/dashboard')
     })
 
 
 
 
 /* GOOGLE AUTH */
-

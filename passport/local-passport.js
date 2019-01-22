@@ -23,12 +23,7 @@ const passport = require('passport')
 router.use(passport.initialize());
 router.use(passport.session());
 
-router.get('/success', (req, res) => {
-    res.render('playlist', {
-        pageTitle: req.query.username,
-        pageID: 'playlist'
-    })
-})
+
 router.get('/error', (req, res) => res.send("Error logging in. Please register"));
 
 passport.serializeUser(function (user, cb) {
@@ -56,9 +51,10 @@ passport.use(new LocalStrategy(
                     }
                 })
                 .then((user) => {
-                    console.log((user))
                     if (!user) {
-                        return done(null, undefined, {message : "Unknown email"})
+                        return done(null, undefined, {
+                            message: "Unknown email"
+                        })
                         // HAVE THEM RENDER SHOW SIGNUP BUTTON
                     }
                     // COMPARES THE HASHED PASSWORDS
@@ -69,7 +65,9 @@ passport.use(new LocalStrategy(
                                 return done(null, user.dataValues)
                             } else {
                                 // ELSE WILL NOT LOG IN
-                                return done(null, undefined, {message : "Inccorect password"})
+                                return done(null, undefined, {
+                                    message: "Inccorect password"
+                                })
                             }
                         })
                         .catch((er) => {
@@ -100,16 +98,15 @@ renderObject = {
 router.post('/login', function (req, res, next) {
     passport.authenticate('local', function (err, user, info) {
         if (user) {
-            console.log("Hi")
             // redirect them to PLAYLIST
             // Add seed
             let sessData = req.session
-            sessData.user= user
-            res.redirect('/signup')
+            sessData.user = user
+            res.redirect('/dashboard')
         } else {
             renderObject.display = 'block'
             renderObject.errorMessage = info.message
-            res.render('login',renderObject)
+            res.render('login', renderObject)
 
         }
     })(req, res, next);
@@ -119,7 +116,10 @@ router.post('/login', function (req, res, next) {
 
 
 router.get('/login', (req, res) => {
-    renderObject.display = 'none'
-    renderObject.errorMessage = ''
-    res.render('login', renderObject)
+
+        console.log('In local-passport', req.session)
+        renderObject.display = 'none'
+        renderObject.errorMessage = ''
+        res.render('login', renderObject)
+
 })

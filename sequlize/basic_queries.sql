@@ -5,6 +5,7 @@
 /* Use the VIEW song_data just like a table                          */
 SELECT album_art, song_title, artist, album_name
 FROM song_data
+
 -WHERE artist LIKE '<search_string>'
 -WHERE album_name LIKE '<search_string>'
 -WHERE song_title LIKE '<search_string>'
@@ -23,7 +24,6 @@ WHERE playlist_data.user_id = <current_user_id> AND
 playlist_data.song_order =1
 
 
-
 /* CREATE VIEW song_data                       */
 
 CREATE VIEW song_data (album_art, song_title, artist, album_name)
@@ -39,6 +39,7 @@ INNER JOIN
     album_songs ON album_songs.song_id = songs.id
 INNER JOIN
     albums ON albums.id = album_songs.album_id
+
 
 /* CREATE VIEW playlist_data  */
 CREATE VIEW playlist_data (user_id, playlist_title, song_order, song_title, artist, album_name)
