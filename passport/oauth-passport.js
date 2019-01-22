@@ -56,14 +56,11 @@ passport.use(new FacebookStrategy({
                 }
             })
             .spread((user, created) => {
-                console.log(user.get({
-                    plain: true
-                }))
-                console.log(created)
+                return cb(null, user)
+
             })
 
 
-        return cb(null, profile)
     }
 ))
 
@@ -77,7 +74,7 @@ router.get('/facebook/callback',
     // TODO UPDATE WHERE IT REDIRECTS TO
     function (req, res) {
         let sessData = req.session
-        sessData.user = req.user.username
+        sessData.user = req.user.dataValues
         res.redirect('/dashboard')
     })
 
@@ -105,14 +102,10 @@ passport.use(new GitHubStrategy({
                 }
             })
             .spread((user, created) => {
-                console.log(user.get({
-                    plain: true
-                }))
-                console.log(created)
+                
+            return cb(null, user);
             })
 
-        console.log(profile)
-        return cb(null, profile)
     }
 ))
 
@@ -124,9 +117,10 @@ router.get('/auth/github/callback',
         failureRedirect: '/error'
     }),
     function (req, res) {
-        db.user
+        console.log('Hello world', req.user.dataValues)
+        
         let sessData = req.session
-        sessData.user = req.user.username
+        sessData.user = req.user.dataValues
         res.redirect('/dashboard')
     })
 
