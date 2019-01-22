@@ -1,12 +1,12 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 const db = require('../models')
 
-const bodyParser = require('body-parser');
-router.use(bodyParser.json());
+const bodyParser = require('body-parser')
+router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({
-    extended: false
-}));
+  extended: false
+}))
 
 router.post('/api/playlist', createPlaylistRoute)
 
@@ -26,18 +26,18 @@ function createPlaylistRoute (req, res, next) {
 }
 
 function createPlaylist (userid, title) {
-    // create playlist, then call linkUsertoPlaylist
-        return db.playlist.create({
-                title: title
-        })
-        .then(function linkUserToPlaylist (result) {
-            var playlistId = result.dataValues.id
-            var userId = userid
-            return db.user_playlist.create({
-                user_id: userId,
-                playlist_id: playlistId
-            })
-        })
+  // create playlist, then call linkUsertoPlaylist
+  return db.playlist.create({
+    title: title
+  })
+    .then(function linkUserToPlaylist (result) {
+      var playlistId = result.dataValues.id
+      var userId = userid
+      return db.user_playlist.create({
+        user_id: userId,
+        playlist_id: playlistId
+      })
+    })
 }
 
 module.exports = router
