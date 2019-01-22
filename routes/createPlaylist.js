@@ -1,43 +1,72 @@
-const express = require('express')
-const router = express.Router()
-const db = require('../models')
+const express = require("express");
+const router = express.Router();
+const db = require("../models");
 
-const bodyParser = require('body-parser')
-router.use(bodyParser.json())
-router.use(bodyParser.urlencoded({
-  extended: false
-}))
-
-router.post('/api/playlist', createPlaylistRoute)
-
-function createPlaylistRoute (req, res, next) {
-    console.log(req.body.title)
-    var playlistTitle = req.body.title
-    //To Do: replace userId with correct identifier that will pull in logged in user's id ('req.session.user.id' ?)
-    createPlaylist(userId, playlistTitle)
-    //To Do: Add in catch function with error handling
-    .catch()
-    .then((result) => {
-        console.log('success')
-        console.log(result)
-        res.redirect('/userPlaylist?added=true')
-        res.end()
-    })
-}
-
-function createPlaylist (userid, title) {
-  // create playlist, then call linkUsertoPlaylist
-  return db.playlist.create({
-    title: title
+const bodyParser = require("body-parser");
+router.use(bodyParser.json());
+router.use(
+  bodyParser.urlencoded({
+    extended: false
   })
-    .then(function linkUserToPlaylist (result) {
-      var playlistId = result.dataValues.id
-      var userId = userid
-      return db.user_playlist.create({
-        user_id: userId,
-        playlist_id: playlistId
+);
+
+router.post("/api/playlist", createPlaylistRoute);
+
+function createPlaylistRoute(req, res, next) {
+  var playlistTitle = req.body.title;
+
+  console.log("THis is the user", req.session);
+  if (!req.session.user) {
+    console.log("hi");
+  } else {
+    let user = req.session.user.id;
+    createPlaylist(playlistTitle)
+      .then(itm => {
+        return itm.user.id;
       })
-    })
+      .then(id => {
+        linkUserToPlaylist(id, user).then(
+          res.redirect("/userPlaylist?added=true")
+        )
+      })
+      .catch(er => {
+        console.log("This is the error", er);
+      });
+  }
 }
 
-module.exports = router
+function createPlaylist(title) {
+  // create playlist, then call linkUsertoPlaylist
+  return new Promise((resolve, reject) => {
+    db.playlist
+      .findOrCreate({ where: { title: title }, defaults: { title: title } })
+      .spread((user, created) => {
+        let results = {
+          user: user,
+          created: created
+        };
+        resolve(results);
+      })
+      .catch(er => {
+        reject(er);
+      });
+  });
+}
+function linkUserToPlaylist(playlistId, userId) {
+  console.log("THis is in linkUserToplaylist", playlistId, userId);
+  return new Promise((resolve, reject) => {
+    db.user_playlist
+      .findOrCreate({
+        where: { playlist_id: playlistId },
+        defaults: { user_id: userId, playlist_id: playlistId }
+      })
+      .spread((user, created) => {
+        resolve(created);
+      })
+      .catch(er => {
+        reject(er);
+      });
+  });
+}
+
+module.exports = router;
