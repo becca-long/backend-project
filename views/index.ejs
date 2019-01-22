@@ -32,6 +32,8 @@
             <button type="button" class="btn btn-primary btn-lg" id="create-playlist-btn" data-toggle="modal" data-target="#create-playlist-modal">Create Playlist</button>
 
             <!-- Modal Window to enter title for Playlist -->
+            <!-- NOTE: Modal window isn't currently allowing for connection to POST route -->
+            <!-- TO DO: Update this modal code so that it calls the 'createPlaylist.js' route and can replace the below div for creating a playlist -->
             <div class="modal fade" id="create-playlist-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -41,21 +43,33 @@
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                    <form action="/api/playlist" method="post">
+                    <form action="/api/playlist" method="POST">
                         <div class="modal-body">
                           <div class="form-group">
                               <label for="playlist-title" class="col-form-label">Title:</label>
-                              <input type="text" class="form-control" id="playlist-title">
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="submit-playlist-btn">Submit</button>
+                              <input type="text" class="form-control" id="playlist-title" name="title">
+                         </div>
+                        </div> 
+                       <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" id="submit-playlist-btn" value="Submit">
                         </div>
                     </form>
                   </div>
                 </div>
               </div>
+
+              <br>
+              <br>
+              <!-- New Div for Creating a New Playlist -->
+              <div>
+                  <h4>Create New Playlist:</h4>
+                <form method="POST" action="/api/playlist">
+                    <input type="text" name="title" placeholder="Enter Playlist Title"/>
+                    <input type="submit" class="btn btn-primary"/>
+                </form>
+            </div>
+
 
         <!--Form version 2 with playlist created. populate structure as part of dashboard.ejs-->
          <br>
