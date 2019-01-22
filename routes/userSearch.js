@@ -1,28 +1,26 @@
-const express = require('express')
-const router = express.Router()
-const app = express()
+const express = require("express");
+const router = express.Router();
 
-const bodyParser = require('body-parser')
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({
-  extended: false
-}))
+const bodyParser = require("body-parser");
+router.use(bodyParser.json());
+router.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+);
 
-const getData = require('../sequlize/sequlize')
+const getData = require("../sequlize/sequlize");
 
-module.exports = router
+module.exports = router;
 
-/*
-*   CALL BY
-*   EXAMPLE AXIOS
-*   axios.get('/api/copy-cat/search?term=' ')
-*/
-router.get('/api/copy-cat/search', (req, res) => {
-  console.log('Someone called the /api/copy-cat/serch')
-  let term = req.query.term
-  console.log('This is the term', term)
-  getData.getSong(term)
-    .then((itm) => {
-      res.json(itm)
-    })
-})
+router.get("/search", (req, res) => {
+  console.log("Someone called the /serch");
+  let search = req.query.search;
+  let songs = getData.getSong(search);
+  let albums = getData.getAlbum(search);
+  let artist = getData.getArtist(search);
+  Promise.all([songs, albums, artist])
+  .then((res)=>{
+    console.log("This should be all the results from search", res);
+  })
+});

@@ -83,9 +83,6 @@ function checkIfExisting(username) {
 
 
 
-router.get('/signup/email/invalid', (req, res) => {
-
-})
 
 router.post('/signup', (req, res) => {
     let userName = req.body.username
