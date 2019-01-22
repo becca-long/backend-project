@@ -7,9 +7,6 @@ const ejs = require('ejs')
 
 const session = require('express-session')
 
-
-
-
 const sessionsObj = {
   secret: 'copycat secret',
   resave: 'false',
@@ -18,15 +15,12 @@ const sessionsObj = {
 
 }
 
-
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1) // trust first proxy
   sess.cookie.secure = true // serve secure cookies
 }
 
-
 app.use(session(sessionsObj))
-
 
 module.export = app
 // setting the view engine to look for ejs files
@@ -37,8 +31,6 @@ app.use(bodyParser.urlencoded({
   extended: false
 }))
 const cookieParser = require('cookie-parser')
-
-
 
 app.use(cookieParser())
 app.use(passport.initialize())
@@ -55,17 +47,15 @@ app.use(require('./routes/createPlaylist'))
 
 app.use(require('./routes/dashboard'))
 
-
 // LOGOUT
 
 app.get('/user/logout', (req, res) => {
   if (req.session) {
-    req.session = null;
+    req.session = null
     console.log('This is sessions', req.session)
-    res.send({message: "Deleted"})
+    res.send({ message: 'Deleted' })
   }
 })
-
 
 app.get('/', (res, req) => {
   res.redirect('/dashboard')
