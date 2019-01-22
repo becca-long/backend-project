@@ -111,7 +111,7 @@ passport.use(new GitHubStrategy({
                 console.log(created)
             })
 
-
+        console.log(profile)
         return cb(null, profile)
     }
 ))
