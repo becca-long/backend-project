@@ -1,120 +1,43 @@
-const searchFunctions = {
-  getSong: getSong,
-  getAlbum: getAlbum,
-  getArtist: getArtist,
-  getAll: getAll
-};
-module.exports = searchFunctions;
+const express = require('express')
+const router = express.Router()
+const db = require('../models')
 
-const db = require("../models");
+const bodyParser = require('body-parser')
+router.use(bodyParser.json())
+router.use(bodyParser.urlencoded({
+  extended: false
+}))
 
-function getSong(term) {
-  return new Promise((resolve, reject) => {
-    console.log(term);
-    console.log('GetSong')
-    db.song
-      .findAll({
-        where: {
-          title: term
-        }
-      })
-      .then(res => {
-        console.log(res)(resolve(res));
-      })
-      .catch(er => {
-        reject(er);
-      });
-  });
+router.post('/api/playlist', createPlaylistRoute)
+
+function createPlaylistRoute (req, res, next) {
+    console.log(req.body.title)
+    var playlistTitle = req.body.title
+    const userId = req.session.user.id
+    createPlaylist(userId, playlistTitle)
+    //To Do: Add in catch function with error handling
+    .catch()
+    .then((result) => {
+        console.log('success')
+        console.log(result)
+        res.redirect('/userPlaylist?added=true')
+        res.end()
+    })
 }
 
-function getAlbum(term) {
-  return new Promise((resolve, reject) => {
-    console.log('getAlbum')
-    db.album
-      .findAll({
-        where: {
-          title: term
-        }
+function createPlaylist (userid, title) {
+  // create playlist, then call linkUsertoPlaylist
+  return db.playlist.create({
+    title: title
+  })
+    .then(function linkUserToPlaylist (result) {
+      var playlistId = result.dataValues.id
+      var userId = userid
+      return db.user_playlist.create({
+        user_id: userId,
+        playlist_id: playlistId
       })
-      .then(elm => {
-        resolve(elm);
-      })
-      .catch(er => {
-        reject(er);
-      });
-  });
+    })
 }
 
-function getArtist(term) {
-  return new Promise((resolve, reject) => {
-    console.log('getArtist')
-    db.artist
-      .findAll({
-        where: {
-          name: term
-        }
-      })
-      .then(itm => {
-        resolve(itm);
-      })
-      .catch(er => {
-        reject(er);
-      });
-  });
-}
-
-function getAll(term) {
-  let songs = new Promise((resolve, reject) => {
-    console.log(term);
-    db.song
-      .findAll({
-        where: {
-          title: term
-        }
-      })
-      .then(res => {
-        console.log(res)(resolve(res));
-      })
-      .catch(er => {
-        reject(er);
-      });
-  });
-  let albums = new Promise((resolve, reject) => {
-    db.album
-      .findAll({
-        where: {
-          title: term
-        }
-      })
-      .then(elm => {
-        resolve(elm);
-      })
-      .catch(er => {
-        reject(er);
-      });
-  });
-
-  let artist = new Promise((resolve, reject) => {
-    db.artist
-      .finaAll({
-        where: {
-          name: term
-        }
-      })
-      .then(itm => {
-        resolve(itm);
-      })
-      .catch(er => {
-        reject(er);
-      });
-  });
-  return new Promise((resolve, reject) => {
-    Promise.all([songs, albums, artist])
-      .then(res => {
-        resolve(res);
-      })
-      .catch(er => {
-        reject(er);
-      });
-  });
-}
+module.exports = router
