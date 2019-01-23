@@ -10,6 +10,7 @@ const getData = require('../sequlize/playlist')
 // })
 
 router.get('/dashboard', (req, res) => {
+<<<<<<< HEAD
   console.log(req.session)
   const userId = req.session.user.id
 
@@ -19,5 +20,13 @@ router.get('/dashboard', (req, res) => {
   //   pageID: 'home',
   //   data: 'hello'
   // })
+=======
+  console.log(req.session.user.username)
+  res.render('index', {
+    pageTitle: 'home',
+    pageID: 'home',
+    username: req.session.user.username
+  })
+>>>>>>> 03251af24b03c669e7cc0a98ec5c807d5c236c8a
 })
 module.exports = router
