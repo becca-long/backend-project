@@ -20,8 +20,8 @@ router.get("/search", (req, res) => {
   let albums = search.getAlbum(itm)
   let artist = search.getArtist(itm)
   Promise.all([songs, albums, artist])
-  .then((res)=>{
-    console.log("This should be all the results from search", res);
+  .then((results) =>{
+    console.log("This should be all the results from search", results);
   })
 });
 

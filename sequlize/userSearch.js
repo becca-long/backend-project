@@ -25,6 +25,7 @@ function getSong(term) {
         ]
       })
       .then(res => {
+        console.log('This is in the getSong', res)
         resolve(res);
       })
       .catch(er => {
@@ -48,6 +49,7 @@ function getAlbum(term) {
           ]
       })
       .then(res => {
+        console.log('This is in the getAlbum', res)
         resolve(res);
       })
       .catch(er => {
@@ -73,6 +75,7 @@ function getArtist(term) {
         ]
       })
       .then(res => {
+        console.log('This is in the getArtist', res)
         resolve(res);
       })
       .catch(er => {
