@@ -44,6 +44,7 @@ app.use(require('./passport/local-passport'))
 app.use(require('./routes/userSearch'))
 app.use(require('./routes/userPlaylist'))
 app.use(require('./routes/createPlaylist'))
+// app.use(require('./routes/getPlaylist'))
 
 app.use(require('./routes/dashboard'))
 
