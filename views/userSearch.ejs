@@ -75,7 +75,10 @@
                     </thead>
                     <tbody>
                       <tr>
-                          
+                         <% if(data.length === 0){%> 
+                          <h3>Unknown song, album, or artist. Please try again</h3>
+
+                        <% }else{ %>
                         <% data.forEach((itm)=>{%>
                         <th scope="row"><img src='<%=itm.album_art%>' height='50px;' width='50px;'></th>
 
@@ -84,7 +87,7 @@
                         <td><%=itm.artist%></td>
                         <td>Add button</td>
                       </tr>
-                    <% }) %>
+                    <% })} %>
                     </tbody>
                   </table>
               </div>
