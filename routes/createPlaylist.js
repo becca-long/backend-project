@@ -11,17 +11,17 @@ router.use(bodyParser.urlencoded({
 router.post('/api/playlist', createPlaylistRoute)
 
 function createPlaylistRoute (req, res, next) {
-    console.log(req.body.title)
-    var playlistTitle = req.body.title
-    //To Do: replace userId with correct identifier that will pull in logged in user's id ('req.session.user.id' ?)
-    createPlaylist(userId, playlistTitle)
-    //To Do: Add in catch function with error handling
+  console.log(req.body.title)
+  var playlistTitle = req.body.title
+  const userId = req.session.user.id
+  createPlaylist(userId, playlistTitle)
+    // To Do: Add in catch function with error handling
     .catch()
     .then((result) => {
-        console.log('success')
-        console.log(result)
-        res.redirect('/userPlaylist?added=true')
-        res.end()
+      console.log('success')
+      console.log(result)
+      res.redirect('/userPlaylist?added=true')
+      res.end()
     })
 }
 
