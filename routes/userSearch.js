@@ -21,7 +21,21 @@ router.get("/search", (req, res) => {
   let artist = search.getArtist(itm)
   Promise.all([songs, albums, artist])
   .then((results) =>{
-    console.log("This should be all the results from search", results);
+    let data = []
+    results.forEach((elm)=>{
+      if(elm.length > 0){
+        elm.forEach((itm)=>{
+          data.push(itm)
+        })
+      }
+    })
+
+
+    // res.json(data)
+    res.render('userSearch', {pageTitle: "Register",
+    pageiD: "REGISTER", data: data})
   })
 });
+
+
 
