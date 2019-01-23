@@ -1,7 +1,7 @@
 {
   "name": "backend-project",
   "version": "1.0.0",
-  "description": "",
+  "description": "The backend-project has been assigned as the second group project for the DigitalCrafts 2018 Flex Cohort. In this Repository we have emulated the music application Spotify by allowing users to create an account where they can search a music database by artist, genre, album, and year. The songs that are found can be saved to a database and viewed onscreen in a user dashboard.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -41,5 +41,8 @@
   "bugs": {
     "url": "https://github.com/becca-long/backend-project/issues"
   },
-  "homepage": "https://github.com/becca-long/backend-project#readme"
+  "homepage": "https://github.com/becca-long/backend-project#readme",
+  "directories": {
+    "test": "tests"
+  }
 }
