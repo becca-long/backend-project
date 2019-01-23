@@ -25,6 +25,7 @@ function getSong(term) {
         ]
       })
       .then(res => {
+
         resolve(res);
       })
       .catch(er => {

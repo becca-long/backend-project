@@ -1,0 +1,12 @@
+.result-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-style: solid;
+}
+
+
+.titles{
+    border-style: solid;
+
+}
