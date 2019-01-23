@@ -9,18 +9,33 @@ router.use(
   })
 );
 
-const getData = require("../sequlize/sequlize");
+const search = require("../sequlize/userSearch");
 
 module.exports = router;
 
 router.get("/search", (req, res) => {
-  console.log("Someone called the /serch");
-  let search = req.query.search;
-  let songs = getData.getSong(search);
-  let albums = getData.getAlbum(search);
-  let artist = getData.getArtist(search);
+  console.log("Someone called the /serch")
+  let itm = req.query.search;
+  let songs = search.getSong(itm)
+  let albums = search.getAlbum(itm)
+  let artist = search.getArtist(itm)
   Promise.all([songs, albums, artist])
-  .then((res)=>{
-    console.log("This should be all the results from search", res);
+  .then((results) =>{
+    let data = []
+    results.forEach((elm)=>{
+      if(elm.length > 0){
+        elm.forEach((itm)=>{
+          data.push(itm)
+        })
+      }
+    })
+
+
+    // res.json(data)
+    res.render('userSearch', {pageTitle: "Register",
+    pageiD: "REGISTER", data: data})
   })
 });
+
+
+
