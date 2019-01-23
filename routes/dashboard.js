@@ -9,11 +9,11 @@ const app = express()
 // })
 
 router.get('/dashboard', (req, res) => {
-  console.log(req.session)
+  console.log(req.session.user.username)
   res.render('index', {
     pageTitle: 'home',
     pageID: 'home',
-    data: 'hello'
+    username: req.session.user.username
   })
 })
 module.exports = router
