@@ -33,7 +33,7 @@ router.get("/search", (req, res) => {
     console.log(data)
     // res.json(data)
     res.render('userSearch', {pageTitle: "Register",
-    pageiD: "REGISTER", data: data})
+    pageiD: "REGISTER", data: data, username: req.session.user.username})
   })
 });
 

@@ -59,7 +59,7 @@ app.get('/user/logout', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-  res.redirect('/dashboard')
+  res.redirect('/login')
 })
 
 
