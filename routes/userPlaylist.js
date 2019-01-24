@@ -22,53 +22,6 @@ router.get('/findPlayList', (req, res) => {
   let songTitle = req.query.getSong(info)
   let artistName = req.playlist.getArtist(info)
   let albumName = req.playlist.getAlbum(info)
-  
-    .then((results) => {
-        let data2 = []
-        results.forEach((e) => {
-          if (e.length > 0) {
-            e.forEach((info) => {
-              data2.push(info)
-            })
-          }
-        })
-        console.log(data2)
-        // res.json(data2)
-        res.render('userPlaylist', { pageTitle: 'Playlist',
-        pageId: 'Playlist',
-        data: data2,
-        username: req.session.user.username })
-      })
-  })
-// const search = require('../sequlize/userSearch')
-
-// module.exports = router
-
-// router.get('/search', (req, res) => {
-//   console.log('Someone called the /serch')
-//   let itm = req.query.search
-//   let songs = search.getSong(itm)
-//   let albums = search.getAlbum(itm)
-//   let artist = search.getArtist(itm)
-//   Promise.all([songs, albums, artist])
-//     .then((results) => {
-//       let data = []
-//       results.forEach((elm) => {
-//         if (elm.length > 0) {
-//           elm.forEach((itm) => {
-//             data.push(itm)
-//           })
-//         }
-//       })
-//       console.log(data)
-//       // res.json(data)
-//       res.render('userSearch', { pageTitle: 'Register',
-//         pageiD: 'REGISTER',
-//         data: data,
-//         username: req.session.user.username })
-//     })
-// })
-
 
   db.playlist_data.findAll({
     where: {
@@ -81,7 +34,24 @@ router.get('/findPlayList', (req, res) => {
       data: result,
       playlistName: result.playlist_title
     })
-  
+  })
+    .then((results) => {
+      let data2 = []
+      results.forEach((e) => {
+        if (e.length > 0) {
+          e.forEach((info) => {
+            data2.push(info)
+          })
+        }
+      })
+      console.log(data2)
+      // res.json(data2)
+      res.render('userPlaylist', { pageTitle: 'Playlist',
+        pageId: 'Playlist',
+        data: data2,
+        username: req.session.user.username })
+    })
+})
 
 // router.get('/findPlayList', (req, res) => {
 //   db.playlist.findAll({
@@ -108,5 +78,5 @@ router.get('/findPlayList', (req, res) => {
 //   })
 //   res.render()
 // })
-module.exports = router
 
+module.exports = router
