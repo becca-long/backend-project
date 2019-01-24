@@ -38,7 +38,6 @@
                             <table class="table">
                                     <thead>
                                       <tr>
-                                        <th scope="col">Song Order</th>
                                         <th scope="col">Song Title</th>
                                         <th scope="col">Artist</th>
                                         <th scope="col">Album</th>
@@ -46,23 +45,29 @@
                                     </thead>
                                     <tbody>
                                       <tr>
+                                          <% data2.forEach((info)) => {%>
                                         <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
+
+                                        <td>
+                                            <%= info.song_title %>
+                                        </td>
+
                                       </tr>
+
                                       <tr>
                                         <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
+                                        <td>
+                                            <%= info.artist %>
+                                        </td>
+                                        
                                       </tr>
                                       <tr>
                                         <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
+                                        <td>
+                                            <%= info.album_name %>
+                                        </td>                                      
                                       </tr>
+                                      <% })} %>
                                     </tbody>
                                   </table>
                           </div>
