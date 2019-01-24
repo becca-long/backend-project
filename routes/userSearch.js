@@ -10,11 +10,13 @@ router.use(
 );
 
 const search = require("../sequlize/userSearch");
+const getData = require('../sequlize/playlist')
 
 module.exports = router;
 
 router.get("/search", (req, res) => {
   console.log("Someone called the /serch")
+
   let itm = req.query.search;
   let songs = search.getSong(itm)
   let albums = search.getAlbum(itm)
@@ -29,8 +31,8 @@ router.get("/search", (req, res) => {
         })
       }
     })
-
-
+    const userId = req.session.user.id
+    getData.getUserPlaylists(userId, res)
     // res.json(data)
     res.render('userSearch', {pageTitle: "Register",
     pageiD: "REGISTER", data: data})

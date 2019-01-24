@@ -25,9 +25,9 @@ function getUserPlaylists (userId, res) {
             })
             .then((result) => {
                 console.log(result)
-                res.render('index', {
-                            pageTitle: 'home',
-                            pageId: 'home',
+                res.render('userSearch', {
+                            pageTitle: 'Register',
+                            pageId: 'REGISTER',
                             title: result
                         })
             })
@@ -63,4 +63,4 @@ function getUserPlaylists (userId, res) {
 //             song_order: songOrder
 //         })
 //     })
-// }
+// }j
