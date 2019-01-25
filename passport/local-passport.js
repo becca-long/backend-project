@@ -116,10 +116,13 @@ router.post('/login', function (req, res, next) {
 
 
 router.get('/login', (req, res) => {
-
+        if(req.session.user){
+            res.redirect('/dashboard')
+        }{
         console.log('In local-passport', req.session)
         renderObject.display = 'none'
         renderObject.errorMessage = ''
         res.render('login', renderObject)
+        }
 
 })
