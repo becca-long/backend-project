@@ -15,6 +15,7 @@ router.post("/add", addSongRoute)
 function addSongRoute (req, res, next) {    
     console.log('Heres my query')
     console.log(req.body)
+    let title = req.body.playlists
     let songId = getSongId(req.body.song)
     let playlistId = getPlaylistId(req.body.playlists)
 
@@ -26,10 +27,14 @@ function addSongRoute (req, res, next) {
         const song = results[0]
         const playlist = results[1]
         addSongToPlaylist(playlist.dataValues.id, song.dataValues.id)
-    }).catch(err => {
+    })
+    
+    .catch(err => {
         console.log
-    }).then((res) => {
-        res.redirect('/userPlaylist')
+    })
+    
+    .then((result) => {
+        res.redirect('/userPlaylist/' + `${req.body.playlists}`)
         res.end()
     })
 }

@@ -31,8 +31,8 @@
             <br>
             <!-- <button type="button" class="btn btn-primary btn-lg">Create Playlist</button> -->
                 <div>
-                    <div class="col-0"><img src="#"></div>
-                    <div class="col-6"><h1>Playlist name here </h1></div>
+                    <div class="col-0"><img src=""</div>
+                    <div class="col-6"><h1><%= data2[0].dataValues.playlist_title %></h1></div>
                     <div class="row">
                             
                             <table class="table">
@@ -44,27 +44,19 @@
                                       </tr>
                                     </thead>
                                     <tbody>
+                                        <% data2.forEach((info) => {%>
                                       <tr>
-                                          <% data2.forEach((info) => {%>
-                                        <th scope="row">1</th>
 
                                         <td>
-                                            <%= info.song_title %>
+                                            <%= info.dataValues.song_title %>
                                         </td>
 
-                                      </tr>
-
-                                      <tr>
-                                        <th scope="row">2</th>
                                         <td>
-                                            <%= info.artist %>
+                                            <%= info.dataValues.artist %>
                                         </td>
                                         
-                                      </tr>
-                                      <tr>
-                                        <th scope="row">3</th>
                                         <td>
-                                            <%= info.album_name %>
+                                            <%= info.dataValues.album_name %>
                                         </td>                                      
                                       </tr>
                                       <% }) %>

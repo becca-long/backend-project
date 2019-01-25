@@ -16,6 +16,28 @@ router.get('/userPlaylist', (req, res) => {
   })
 })
 
+router.get('/userPlaylist/:title', (req, res) => {
+  let playlistTitle = req.params.title
+
+ db.playlist_data.findAll({
+   where: {
+     playlist_title: playlistTitle
+   },
+   attributes: ['user_id', 'playlist_title', 'song_order', 'song_title', 'artist', 'album_name']
+}).then((result) => {
+  console.log(result)
+  let data = []
+  res.render('userPlaylist', {
+    pageTitle: 'playlist',
+    pageID: 'playlist',
+    data2: result,
+
+  })
+})
+
+  
+})
+
 router.get('/findPlayList', (req, res) => {
   let id = req.session.user.id
   console.log('A user is calling their playlist')
