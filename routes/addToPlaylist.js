@@ -12,17 +12,74 @@ router.use(bodyParser.urlencoded({
 
 router.post("/add", addSongRoute)
 
-function addSongRoute (req, res, next) {
+function addSongRoute (req, res, next) {    
     console.log('Heres my query')
     console.log(req.body)
-}
+    let songId = getSongId(req.body.song)
+    let playlistId = getPlaylistId(req.body.playlists)
 
-function addSongToPlaylist (playlistId, songId) {
-    db.playlist_song.create({
-        playlist_id: playlistId,
-        song_id: songId
+    Promise.all([songId, playlistId])
+
+    .then((results) => {
+        console.log('heres the result')
+        console.log(results)
+        const song = results[0]
+        const playlist = results[1]
+        addSongToPlaylist(song.dataValues.id, playlist.dataValues.id)
+    }).catch(err => {
+        console.log
     })
 }
+
+function getSongId (songTitle) {
+    return new Promise ((resolve, reject) => {
+        db.song.findOne({
+        where: {
+            title: songTitle
+        }
+    })
+    .then (res => {
+        resolve(res)
+    })
+    .catch(er => {
+        reject(er)
+    })
+})
+
+};
+
+
+function getPlaylistId (playlistTitle) {
+    return new Promise ((resolve, reject) => {
+        db.playlist.findOne({
+        where: {
+            title: playlistTitle
+        }
+    })
+    .then (res => {
+        resolve(res)
+    })
+    .catch(er => {
+        reject(er)
+    })
+})
+
+};
+
+function addSongToPlaylist (playlistId, songId) {
+    console.log(typeof playlistId, songId)
+    db.playlist_song.create({
+        playlist_id: playlistId,
+        song_id: songId,
+        song_order: null
+    })
+    .then((res)=>{
+        console.log(res)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+};
 
 
 module.exports = router

@@ -8,10 +8,11 @@ const db = require('../models/')
 const playlist = require('../sequlize/playlist')
 
 router.get('/userPlaylist', (req, res) => {
+  let data = []
   res.render('userPlaylist', {
     pageTitle: 'playlist',
     pageID: 'playlist',
-    data: 'hello'
+    data2: data
   })
 })
 
