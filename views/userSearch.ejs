@@ -78,22 +78,34 @@
                           
                         <% data.forEach((itm)=>{%>
                         <th scope="row"><img src='<%=itm.album_art%>' height='50px;' width='50px;'></th>
+    
+                          <td><%=itm.song_title%></td>
+                          <td><%=itm.album_name%></td>
+                          <td><%=itm.artist%></td>
 
-                        <td><%=itm.song_title%></td>
-                        <td><%=itm.album_name%></td>
-                        <td><%=itm.artist%></td>
-                        <td class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Add Song to Playlist
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                          <td>
+                            <!-- <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Add to Playlist
+                            </button> -->
+                            <h5>Add song to playlist</h5>
+                            <form method='post' action='/add'>
+                              <input list="userPlaylist" name="playlists">
+                              <input name='song' value="<%=itm.song_title%>" style="display:none;">
+                            
+                            <datalist id="userPlaylist">
                                 <% title.forEach((el) => { %>
-                                    <a class="dropdown-item" href="#"><%= el.dataValues.title %></a>
+                                    <option value = '<%= el.dataValues.title %>'>
                                 <% }) %>
-                            </div>
+                              </datalist>
+                              <input type="submit">
+                            </form>
+
                           </td>
-                                  </tr>
-                    <% }) %>
+
+
+                        </tr>
+                      <% }) %>
                     </tbody>
                   </table>
               </div>
@@ -146,6 +158,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-
+    
 </body>
 </html>

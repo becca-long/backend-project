@@ -25,8 +25,8 @@ function getSong(term) {
         ]
       })
       .then(res => {
-
-        resolve(res);
+        var res_song = res
+        resolve(res_song);
       })
       .catch(er => {
         reject(er);
@@ -49,7 +49,8 @@ function getAlbum(term) {
           ]
       })
       .then(res => {
-        resolve(res);
+        var res_album = res
+        resolve(res_album);
       })
       .catch(er => {
         reject(er);
@@ -74,7 +75,8 @@ function getArtist(term) {
         ]
       })
       .then(res => {
-        resolve(res);
+        var res_artist = res
+        resolve(res_artist);
       })
       .catch(er => {
         reject(er);

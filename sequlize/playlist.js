@@ -1,5 +1,3 @@
-//Note: This function is incomplete and may not be needed
-//To Do: Complete function to be used as part of the 'Add Song to Playlist' route 
 const queryFunctions = {
     getUserPlaylists: getUserPlaylists,
     // addSong: addSong
@@ -9,13 +7,13 @@ module.exports= queryFunctions;
 
 const db = require('../models')
 
-function getUserPlaylists (userId, res) {
-    return db.user_playlist.findAll({
+function getUserPlaylists (userId) {
+
+    db.user_playlist.findAll({
         where: {user_id: userId},
         attributes: ['playlist_id']
     })
     .then((result) => {
-
             db.playlist.findAll({
                 where: {id: result.map(el => {
                     return el.dataValues.playlist_id
@@ -23,17 +21,28 @@ function getUserPlaylists (userId, res) {
             },
                 attributes: ['title']
             })
-            .then((result) => {
-                console.log(result)
-                res.render('userSearch', {
-                            pageTitle: 'Register',
-                            pageId: 'REGISTER',
-                            title: result
-                        })
-            })
-})
-}
+            
+          
+        })
+    }
+        
 
+        
+
+    //         .then((result) => {
+    //         //     console.log('~~~~~~~~~~~~')
+    //         //     console.log(result)
+    //         //     console.log('~~~~~~~~~~~~~~~')
+    //             // res.render('userSearch', {
+    //             //             pageTitle: 'Register',
+    //             //             pageId: 'REGISTER',
+    //             //             title: result
+    //             //         })
+    //         })
+    // })
+
+
+// getUserPlaylists(1)
 
 // <% forEach((blah) => { %>
 //     blah blah html
