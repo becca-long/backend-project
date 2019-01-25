@@ -44,14 +44,13 @@ app.use(require('./passport/local-passport'))
 app.use(require('./routes/userSearch'))
 app.use(require('./routes/userPlaylist'))
 app.use(require('./routes/createPlaylist'))
-
+app.use(require('./routes/playlistRetrieve'))
 app.use(require('./routes/dashboard'))
 
 // LOGOUT
 
 app.get('/user/logout', (req, res) => {
   if (req.session) {
-
     delete req.session.user
     console.log(req.session)
     res.redirect('/login')
@@ -61,7 +60,6 @@ app.get('/user/logout', (req, res) => {
 app.get('/', (req, res) => {
   res.redirect('/login')
 })
-
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
