@@ -1,18 +1,18 @@
-const express = require("express");
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-const bodyParser = require("body-parser");
-router.use(bodyParser.json());
+const bodyParser = require('body-parser')
+router.use(bodyParser.json())
 router.use(
   bodyParser.urlencoded({
     extended: false
   })
-);
+)
 
 const search = require("../sequlize/userSearch");
 const db = require('../models')
 
-module.exports = router;
+module.exports = router
 
 router.get("/search", (req, res) => {
   console.log("Someone called the /search")
