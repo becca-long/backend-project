@@ -29,54 +29,54 @@ const renderObject = {
   lNameCss: "none"
 };
 
-function createNewUser(userName, hash, firstName, lastName) {
-  db.user
-    .create({
-      username: userName,
-      password: hash,
-      firstname: firstName,
-      lastname: lastName
-    })
-    // .save()
-    .then(() => {
-      console.log("YAY");
-    })
-    .catch(er => {
-      console.log("This is er", er);
-    });
-}
+// function createNewUser(userName, hash, firstName, lastName) {
+//   db.user
+//     .create({
+//       username: userName,
+//       password: hash,
+//       firstname: firstName,
+//       lastname: lastName
+//     })
+//     // .save()
+//     .then(() => {
+//       console.log("YAY");
+//     })
+//     .catch(er => {
+//       console.log("This is er", er);
+//     });
+// }
 
-// CHECKS IF USER EXISTING OR NOT
+// // CHECKS IF USER EXISTING OR NOT
 
-function checkIfExisting(username) {
-  console.log("This is the checkifExisting username, ", username);
-  return new Promise((resolve, reject) => {
-    db.user
-      .findOne({
-        where: {
-          username: username
-        }
-      })
-      .then(user => {
-        if (user) {
-          console.log("This is user", user.dataValues.username);
-          let dataUser = user.dataValues.username;
-          if (dataUser === username) {
-            resolve(true);
-          }
-          if (dataUser !== username) {
-            resolve(false);
-          }
-        } else {
-          console.log("Hello");
-          resolve(false);
-        }
-      })
-      .catch(er => {
-        reject(er);
-      });
-  });
-}
+// function checkIfExisting(username) {
+//   console.log("This is the checkifExisting username, ", username);
+//   return new Promise((resolve, reject) => {
+//     db.user
+//       .findOne({
+//         where: {
+//           username: username
+//         }
+//       })
+//       .then(user => {
+//         if (user) {
+//           console.log("This is user", user.dataValues.username);
+//           let dataUser = user.dataValues.username;
+//           if (dataUser === username) {
+//             resolve(true);
+//           }
+//           if (dataUser !== username) {
+//             resolve(false);
+//           }
+//         } else {
+//           console.log("Hello");
+//           resolve(false);
+//         }
+//       })
+//       .catch(er => {
+//         reject(er);
+//       });
+//   });
+// }
 
 function createUser(userName, hash, firstName, lastName) {
   return new Promise((resolve, reject) => {
