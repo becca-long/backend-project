@@ -25,9 +25,12 @@ function addSongRoute (req, res, next) {
         console.log(results)
         const song = results[0]
         const playlist = results[1]
-        addSongToPlaylist(song.dataValues.id, playlist.dataValues.id)
+        addSongToPlaylist(playlist.dataValues.id, song.dataValues.id)
     }).catch(err => {
         console.log
+    }).then((res) => {
+        res.redirect('/userPlaylist')
+        res.end()
     })
 }
 
@@ -67,7 +70,6 @@ function getPlaylistId (playlistTitle) {
 };
 
 function addSongToPlaylist (playlistId, songId) {
-    console.log(typeof playlistId, songId)
     db.playlist_song.create({
         playlist_id: playlistId,
         song_id: songId,
