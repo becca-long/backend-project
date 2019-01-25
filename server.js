@@ -53,14 +53,15 @@ app.use(require('./routes/dashboard'))
 
 app.get('/user/logout', (req, res) => {
   if (req.session) {
-    req.session = null
-    console.log('This is sessions', req.session)
-    res.send({ message: 'Deleted' })
+
+    delete req.session.user
+    console.log(req.session)
+    res.redirect('/login')
   }
 })
 
 app.get('/', (req, res) => {
-  res.redirect('/dashboard')
+  res.redirect('/login')
 })
 
 

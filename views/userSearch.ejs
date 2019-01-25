@@ -1,63 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link rel="stylesheet" href='/style/results.css' type='text/css'>
-    <title>Copy Cat</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href='/style/results.css' type='text/css'>
+  <title>Copy Cat</title>
 </head>
+
 <body>
-    <!--work this out later. need the structure of the sidebar to sit correctly-->
-<div> <% include ./partials/navbar.ejs %> </div>
+  <!--work this out later. need the structure of the sidebar to sit correctly-->
+  <div>
+    <% include ./partials/navbar.ejs %>
+  </div>
 
-<!-- side nav goes here -->
-<div class=container-fluid>
+  <!-- side nav goes here -->
+  <div class=container-fluid>
     <div class="row">
-        <div class="col-"> <% include ./partials/sidebar.ejs %> </div>
-    
+      <div class="col-">
+        <% include ./partials/sidebar.ejs %>
+      </div>
 
-<!--main div goes here--> 
+
+      <!--main div goes here-->
       <div class="col-md" id="dashboard-main">
-          <!-- using jumbtron to add spacing and depth -->
-          <div class="jumbotron jumbotron-fluid">
-                <div class="container">
-                  <h1 class="display-4">Welcome</h1>   
-                </div>
-              </div>
-            
-            
-            <br>
-            <!-- <button type="button" class="btn btn-primary btn-lg" id="create-playlist-btn" data-toggle="modal" data-target="#create-playlist-modal">Create Playlist</button> -->
+        <!-- using jumbtron to add spacing and depth -->
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h1 class="display-4">Welcome
+              <%= username %>
+            </h1>
+          </div>
+        </div>
 
-            <!-- Modal Window to enter title for Playlist -->
-            <!-- NOTE: Modal window isn't currently allowing for connection to POST route -->
-            <!-- TO DO: Update this modal code so that it calls the 'createPlaylist.js' route and can replace the below div for creating a playlist -->
-            <div class="modal fade" id="create-playlist-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Create Playlist</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <form action="/api/playlist" method="POST">
-                        <div class="modal-body">
-                          <div class="form-group">
-                              <label for="playlist-title" class="col-form-label">Title:</label>
-                              <input type="text" class="form-control" id="playlist-title" name="title">
-                         </div>
-                        </div> 
-                       <div class="modal-footer">
-                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <input type="submit" class="btn btn-primary" id="submit-playlist-btn" value="Submit">
-                        </div>
-                    </form>
+
+
+        <br>
+        <!-- <button type="button" class="btn btn-primary btn-lg" id="create-playlist-btn" data-toggle="modal" data-target="#create-playlist-modal">Create Playlist</button> -->
+
+        <!-- Modal Window to enter title for Playlist -->
+        <!-- NOTE: Modal window isn't currently allowing for connection to POST route -->
+        <!-- TO DO: Update this modal code so that it calls the 'createPlaylist.js' route and can replace the below div for creating a playlist -->
+        <div class="modal fade" id="create-playlist-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Playlist</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="/api/playlist" method="POST">
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="playlist-title" class="col-form-label">Title:</label>
+                    <input type="text" class="form-control" id="playlist-title" name="title">
                   </div>
                 </div>
-              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <input type="submit" class="btn btn-primary" id="submit-playlist-btn" value="Submit">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
 
               <br>
               <br>
@@ -111,10 +122,10 @@
               </div>
 
         <!--Form version 2 with playlist created. populate structure as part of dashboard.ejs-->
-         <br>
+        <br>
         <br>
 
-       <!--Playlist name and img-->
+        <!--Playlist name and img-->
         <!-- <div class="container-fluid">
             <div>
                 <div class="col-0"><img src="#"></div>
@@ -123,12 +134,12 @@
         </div> -->
       </div>
     </div>
-</div>
+  </div>
 
 
 
-        <!--Playlist setup-->
-        <!-- <div class="container">
+  <!--Playlist setup-->
+  <!-- <div class="container">
                 <div class="row">
                   <div class="col-sm">
                     <h2>Title</h2> 
@@ -139,8 +150,8 @@
                   
                 </div>
         </div> -->
-        <!--insert playlist song loop here-->
-        <!-- <div class="container">
+  <!--insert playlist song loop here-->
+  <!-- <div class="container">
             <div class="row">
                 <div class="col-sm">
                           
@@ -149,9 +160,9 @@
                           
                 </div>
             </div> -->
-        </div>
-    </div>
-</div>
+  </div>
+  </div>
+  </div>
 
 
 
@@ -160,4 +171,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     
 </body>
+
 </html>

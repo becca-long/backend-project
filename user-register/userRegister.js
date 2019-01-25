@@ -55,7 +55,8 @@ function createNewUser(userName, hash, firstName, lastName) {
 // CHECKS IF USER EXISTING OR NOT
 
 function checkIfExisting(username) {
-    console.log(username)
+    console.log('This is the checkifExisting username, ', username)
+    return new Promise((resolve, reject)=>{
     db.user.findOne({
             where: {
                 username: username
@@ -63,21 +64,23 @@ function checkIfExisting(username) {
         })
         .then((user) => {
             if (user) {
-
+                console.log('This is user', user.dataValues.username)
                 let dataUser = user.dataValues.username
                 if (dataUser === username) {
-                    return true
+                    resolve(true)
                 }
                 if (dataUser !== username) {
-                    return false
+                    resolve(false)
                 }
             } else {
-                return false;
+                console.log('Hello')
+                resolve(false);
             }
         })
         .catch((er) => {
-            console.log(er)
+            reject(er)
         })
+    })
 }
 
 
@@ -118,20 +121,28 @@ router.post('/signup', (req, res) => {
                     .then((hash) => {
                         if (hash) {
                             // IF USER DOES NOT EXIST
-                            if (!checkIfExisting(userName)) {
-                                renderObject.displayMessage = 'none'
-                                renderObject.message = ""
-                                createNewUser(userName, hash, firstName, lastName)
-                                user = {}
-                                let sessData = req.session
-                                sessData.user = {username:userName, password:hash, firstname: firstName, lastname: lastName}
-                                res.redirect('/dashboard')
-                            } else {
-                                renderObject.displayMessage = 'block'
-                                renderObject.message = "Email already taken"
-                                res.render('userRegister', renderObject)
+                            checkIfExisting(userName)
+                                .then((existing)=>{
+                                    if(existing){
+                                        console.log('Username is taken')
+                                        renderObject.displayMessage = 'block'
+                                        renderObject.message = "Email already taken"
+                                        res.render('userRegister', renderObject)
+                                    }else{
+                                        console.log('username is not taken')
+                                        renderObject.displayMessage = 'none'
+                                        renderObject.message = ""
+                                        createNewUser(userName, hash, firstName, lastName)
+                                        user = {}
+                                        let sessData = req.session
+                                        sessData.user = {username:userName, password:hash, firstname: firstName, lastname: lastName}
+                                        res.redirect('/dashboard')
+                                    }
+                                })
+                                .catch((er)=>{
+                                    console.log(er)
+                                })
                             }
-                        }
                     })
                     .catch((er) => {
                         console.log(er)

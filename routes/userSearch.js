@@ -33,6 +33,7 @@ router.get("/search", (req, res) => {
       if(elm.length > 0){
         elm.forEach((itm)=>{
           data.push(itm)
+
         })
       }
     })
